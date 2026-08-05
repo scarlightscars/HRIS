@@ -46,7 +46,6 @@
     .tab-content { display: none; }
     .tab-content.active { display: block; }
     
-    /* Custom Green-Gradient Scrollbar */
     ::-webkit-scrollbar {
       width: 6px;
       height: 6px;
@@ -65,10 +64,8 @@
 </head>
 <body class="bg-slate-50 font-sans text-slate-800 antialiased flex h-screen overflow-hidden">
 
-  <!-- SIDEBAR NAVIGATION (Green Gradient + Animated Glow) -->
+  <!-- SIDEBAR NAVIGATION -->
   <aside class="w-64 bg-gradient-to-b from-emerald-950 via-brand-900 to-slate-950 text-emerald-100 flex flex-col justify-between shrink-0 shadow-2xl z-20 relative overflow-hidden">
-    
-    <!-- Animated background motion element -->
     <div class="absolute -top-16 -left-16 w-48 h-48 bg-emerald-500/10 rounded-full blur-3xl animate-pulse-slow pointer-events-none"></div>
     <div class="absolute bottom-10 -right-10 w-40 h-40 bg-teal-400/10 rounded-full blur-2xl animate-float pointer-events-none"></div>
 
@@ -110,7 +107,7 @@
       </nav>
     </div>
 
-    <!-- User Profile Footer -->
+    <!-- Profile Footer -->
     <div class="p-4 border-t border-emerald-800/40 bg-slate-950/30 flex items-center gap-3 z-10">
       <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&q=80&w=100" alt="Avatar" class="w-9 h-9 rounded-full object-cover ring-2 ring-emerald-400" />
       <div class="truncate text-xs">
@@ -123,15 +120,14 @@
   <!-- MAIN CONTENT AREA -->
   <div class="flex-1 flex flex-col h-screen overflow-hidden relative">
 
-    <!-- TOP HEADER WITH MOTION GRAPHIC BACKGROUND -->
+    <!-- TOP HEADER -->
     <header class="h-16 bg-white border-b border-slate-200 flex items-center justify-between px-8 z-10 relative overflow-hidden shadow-sm">
-      <!-- Top banner animated graphic glow -->
       <div class="absolute right-0 top-0 h-full w-1/3 bg-gradient-to-l from-emerald-100/50 via-teal-50/20 to-transparent pointer-events-none animate-gradient-x"></div>
 
       <div class="flex items-center gap-4 w-1/3 z-10">
         <div class="relative w-full">
           <i data-lucide="search" class="w-4 h-4 absolute left-3 top-1/2 -translate-y-1/2 text-slate-400"></i>
-          <input type="text" placeholder="Search employee names, SSS, TIN..." class="w-full pl-9 pr-4 py-2 bg-slate-100 rounded-lg text-sm border-none focus:ring-2 focus:ring-emerald-500 outline-none transition" />
+          <input type="text" id="global-search" oninput="filterEmployeeTable()" placeholder="Search employee names, emails, phones..." class="w-full pl-9 pr-4 py-2 bg-slate-100 rounded-lg text-sm border-none focus:ring-2 focus:ring-emerald-500 outline-none transition" />
         </div>
       </div>
       
@@ -150,8 +146,6 @@
 
     <!-- Main Dynamic Tab Switcher -->
     <main class="flex-1 overflow-y-auto p-8 relative">
-
-      <!-- Background Motion Graphic Waves -->
       <div class="absolute top-10 right-10 w-96 h-96 bg-gradient-to-tr from-emerald-200/20 to-teal-200/20 rounded-full blur-3xl pointer-events-none animate-float"></div>
 
       <!-- 1. DASHBOARD TAB -->
@@ -161,28 +155,23 @@
           <p class="text-sm text-slate-500">Real-time overview of personnel statistics and HR workflows.</p>
         </div>
 
-        <!-- Metric Cards with subtle green accents -->
         <div class="grid grid-cols-1 md:grid-cols-4 gap-5">
           <div class="bg-white p-5 rounded-2xl border border-emerald-100 shadow-sm hover:shadow-md transition flex items-center justify-between">
             <div>
               <p class="text-xs font-medium text-slate-500">Total Workforce</p>
-              <h3 class="text-2xl font-bold text-slate-900 mt-1">20 Active</h3>
+              <h3 class="text-2xl font-bold text-slate-900 mt-1" id="dash-emp-count">20 Active</h3>
               <p class="text-xs text-emerald-600 mt-1 font-medium">100% Onboarded</p>
             </div>
-            <div class="p-3 bg-emerald-50 text-emerald-600 rounded-xl">
-              <i data-lucide="users" class="w-6 h-6"></i>
-            </div>
+            <div class="p-3 bg-emerald-50 text-emerald-600 rounded-xl"><i data-lucide="users" class="w-6 h-6"></i></div>
           </div>
 
           <div class="bg-white p-5 rounded-2xl border border-emerald-100 shadow-sm hover:shadow-md transition flex items-center justify-between">
             <div>
-              <p class="text-xs font-medium text-slate-500">On Leave Today</p>
-              <h3 class="text-2xl font-bold text-slate-900 mt-1">2</h3>
-              <p class="text-xs text-slate-500 mt-1">1 VL / 1 SL</p>
+              <p class="text-xs font-medium text-slate-500">Active ATS Applicants</p>
+              <h3 class="text-2xl font-bold text-slate-900 mt-1" id="dash-ats-count">6 Candidates</h3>
+              <p class="text-xs text-emerald-600 mt-1 font-medium">Pipeline active</p>
             </div>
-            <div class="p-3 bg-teal-50 text-teal-600 rounded-xl">
-              <i data-lucide="user-minus" class="w-6 h-6"></i>
-            </div>
+            <div class="p-3 bg-teal-50 text-teal-600 rounded-xl"><i data-lucide="briefcase" class="w-6 h-6"></i></div>
           </div>
 
           <div class="bg-white p-5 rounded-2xl border border-emerald-100 shadow-sm hover:shadow-md transition flex items-center justify-between">
@@ -191,9 +180,7 @@
               <h3 class="text-2xl font-bold text-slate-900 mt-1">100%</h3>
               <p class="text-xs text-emerald-600 mt-1 font-medium">SSS / Pag-IBIG / BIR</p>
             </div>
-            <div class="p-3 bg-emerald-50 text-emerald-600 rounded-xl">
-              <i data-lucide="shield-check" class="w-6 h-6"></i>
-            </div>
+            <div class="p-3 bg-emerald-50 text-emerald-600 rounded-xl"><i data-lucide="shield-check" class="w-6 h-6"></i></div>
           </div>
 
           <div class="bg-white p-5 rounded-2xl border border-emerald-100 shadow-sm hover:shadow-md transition flex items-center justify-between">
@@ -202,33 +189,27 @@
               <h3 class="text-2xl font-bold text-slate-900 mt-1">₱1,250,000</h3>
               <p class="text-xs text-emerald-600 mt-1 font-medium">Disbursement Ready</p>
             </div>
-            <div class="p-3 bg-teal-50 text-teal-600 rounded-xl">
-              <i data-lucide="banknote" class="w-6 h-6"></i>
-            </div>
+            <div class="p-3 bg-teal-50 text-teal-600 rounded-xl"><i data-lucide="banknote" class="w-6 h-6"></i></div>
           </div>
         </div>
 
-        <!-- Banner Card -->
         <div class="p-6 rounded-2xl bg-gradient-to-r from-emerald-700 via-brand-600 to-teal-700 text-white shadow-xl flex items-center justify-between relative overflow-hidden">
-          <div class="absolute -right-10 -bottom-10 w-48 h-48 bg-white/10 rounded-full blur-2xl"></div>
           <div class="z-10">
             <h2 class="text-lg font-bold">Philippine Government Benefits Portal Integrated</h2>
             <p class="text-xs text-emerald-100 mt-1 max-w-xl">SSS, Pag-IBIG MID, PhilHealth ID, and BIR TIN auto-contributions are synchronized for current pay period processing.</p>
           </div>
-          <button onclick="switchTab('directory')" class="z-10 px-4 py-2 bg-white text-emerald-800 rounded-xl text-xs font-bold hover:bg-emerald-50 transition shadow">
-            View Directory
-          </button>
+          <button onclick="switchTab('directory')" class="z-10 px-4 py-2 bg-white text-emerald-800 rounded-xl text-xs font-bold hover:bg-emerald-50 transition shadow">View Directory</button>
         </div>
       </section>
 
-      <!-- 2. DIRECTORY TAB (WITH 20 PH EMPLOYEES & GOV DATA) -->
+      <!-- 2. DIRECTORY TAB -->
       <section id="tab-directory" class="tab-content space-y-6 relative z-10">
         <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
           <div>
             <h1 class="text-2xl font-bold text-slate-900">Employee Directory</h1>
-            <p class="text-sm text-slate-500">Complete Masterlist (20 Active Staff Records with PH Government ID Numbers)</p>
+            <p class="text-sm text-slate-500">Complete Masterlist (PH Government ID Records)</p>
           </div>
-          <button class="px-4 py-2 bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-700 hover:to-teal-700 text-white rounded-xl text-sm font-semibold flex items-center gap-2 shadow-md transition">
+          <button onclick="openEmployeeModal()" class="px-4 py-2 bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-700 hover:to-teal-700 text-white rounded-xl text-sm font-semibold flex items-center gap-2 shadow-md transition">
             <i data-lucide="user-plus" class="w-4 h-4"></i> Add New Record
           </button>
         </div>
@@ -246,10 +227,11 @@
                   <th class="py-4 px-4">Pag-IBIG MID</th>
                   <th class="py-4 px-4">PhilHealth ID</th>
                   <th class="py-4 px-4">BIR TIN</th>
+                  <th class="py-4 px-4 text-center">Action</th>
                 </tr>
               </thead>
               <tbody id="employee-table-body" class="divide-y divide-slate-100">
-                <!-- Javascript will dynamically inject the 20 randomized employee rows here -->
+                <!-- Javascript will inject employee rows -->
               </tbody>
             </table>
           </div>
@@ -264,7 +246,7 @@
         </div>
         <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm">
           <p class="text-sm font-semibold text-slate-700">Leave Balance Summary</p>
-          <p class="text-xs text-slate-500 mt-1">All employees have accrued 1.25 vacation leave days per working month.</p>
+          <p class="text-xs text-slate-500 mt-1">All employees accrue 1.25 vacation leave days per working month.</p>
         </div>
       </section>
 
@@ -280,11 +262,63 @@
         </div>
       </section>
 
-      <!-- 5. RECRUITMENT TAB -->
+      <!-- 5. RECRUITMENT TAB (FUNCTIONAL ATS) -->
       <section id="tab-recruitment" class="tab-content space-y-6">
-        <div>
-          <h1 class="text-2xl font-bold text-slate-900">Scarlight ATS</h1>
-          <p class="text-sm text-slate-500">Recruitment pipeline and applicant evaluation.</p>
+        <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
+          <div>
+            <h1 class="text-2xl font-bold text-slate-900">Applicant Tracking System (ATS)</h1>
+            <p class="text-sm text-slate-500">Interactive hiring pipeline. Move candidates seamlessly across recruitment stages.</p>
+          </div>
+          <button onclick="openCandidateModal()" class="px-4 py-2 bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-700 hover:to-teal-700 text-white rounded-xl text-sm font-semibold flex items-center gap-2 shadow-md transition">
+            <i data-lucide="plus-circle" class="w-4 h-4"></i> Add Candidate
+          </button>
+        </div>
+
+        <!-- ATS Board Columns -->
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-5">
+          <!-- Applied Column -->
+          <div class="bg-slate-100/80 p-4 rounded-2xl border border-slate-200 flex flex-col h-[calc(100vh-220px)]">
+            <div class="flex items-center justify-between mb-3 pb-2 border-b border-slate-200">
+              <span class="text-xs font-bold text-slate-700 uppercase tracking-wider flex items-center gap-2">
+                <span class="w-2 h-2 rounded-full bg-blue-500"></span> Applied
+              </span>
+              <span id="count-applied" class="px-2 py-0.5 text-xs font-bold bg-slate-200 text-slate-700 rounded-full">0</span>
+            </div>
+            <div id="col-applied" class="space-y-3 overflow-y-auto flex-1 pr-1"></div>
+          </div>
+
+          <!-- Interviewing Column -->
+          <div class="bg-slate-100/80 p-4 rounded-2xl border border-slate-200 flex flex-col h-[calc(100vh-220px)]">
+            <div class="flex items-center justify-between mb-3 pb-2 border-b border-slate-200">
+              <span class="text-xs font-bold text-slate-700 uppercase tracking-wider flex items-center gap-2">
+                <span class="w-2 h-2 rounded-full bg-amber-500"></span> Interviewing
+              </span>
+              <span id="count-interviewing" class="px-2 py-0.5 text-xs font-bold bg-slate-200 text-slate-700 rounded-full">0</span>
+            </div>
+            <div id="col-interviewing" class="space-y-3 overflow-y-auto flex-1 pr-1"></div>
+          </div>
+
+          <!-- Offered Column -->
+          <div class="bg-slate-100/80 p-4 rounded-2xl border border-slate-200 flex flex-col h-[calc(100vh-220px)]">
+            <div class="flex items-center justify-between mb-3 pb-2 border-b border-slate-200">
+              <span class="text-xs font-bold text-slate-700 uppercase tracking-wider flex items-center gap-2">
+                <span class="w-2 h-2 rounded-full bg-purple-500"></span> Offered
+              </span>
+              <span id="count-offered" class="px-2 py-0.5 text-xs font-bold bg-slate-200 text-slate-700 rounded-full">0</span>
+            </div>
+            <div id="col-offered" class="space-y-3 overflow-y-auto flex-1 pr-1"></div>
+          </div>
+
+          <!-- Hired Column -->
+          <div class="bg-slate-100/80 p-4 rounded-2xl border border-slate-200 flex flex-col h-[calc(100vh-220px)]">
+            <div class="flex items-center justify-between mb-3 pb-2 border-b border-slate-200">
+              <span class="text-xs font-bold text-slate-700 uppercase tracking-wider flex items-center gap-2">
+                <span class="w-2 h-2 rounded-full bg-emerald-500"></span> Hired
+              </span>
+              <span id="count-hired" class="px-2 py-0.5 text-xs font-bold bg-slate-200 text-slate-700 rounded-full">0</span>
+            </div>
+            <div id="col-hired" class="space-y-3 overflow-y-auto flex-1 pr-1"></div>
+          </div>
         </div>
       </section>
 
@@ -311,38 +345,96 @@
           <p class="text-sm text-slate-500">Scarlight HR application configurations and API keys.</p>
         </div>
       </section>
-
     </main>
+  </div>
+
+  <!-- MODAL: ADD EMPLOYEE -->
+  <div id="modal-employee" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
+    <div class="bg-white rounded-2xl shadow-2xl max-w-md w-full overflow-hidden border border-slate-100 animate-float">
+      <div class="px-6 py-4 bg-gradient-to-r from-emerald-800 to-teal-800 text-white flex items-center justify-between">
+        <h3 class="font-bold text-base flex items-center gap-2"><i data-lucide="user-plus" class="w-5 h-5"></i> Add New Employee Record</h3>
+        <button onclick="closeEmployeeModal()" class="text-emerald-200 hover:text-white"><i data-lucide="x" class="w-5 h-5"></i></button>
+      </div>
+      <form id="form-add-employee" onsubmit="handleAddEmployee(event)" class="p-6 space-y-4">
+        <div>
+          <label class="block text-xs font-semibold text-slate-700 mb-1">First Name *</label>
+          <input type="text" id="emp-fn" required placeholder="e.g. Maria" class="w-full px-3 py-2 border rounded-xl text-sm focus:ring-2 focus:ring-emerald-500 outline-none" />
+        </div>
+        <div class="grid grid-cols-3 gap-3">
+          <div class="col-span-1">
+            <label class="block text-xs font-semibold text-slate-700 mb-1">M.I.</label>
+            <input type="text" id="emp-mi" maxlength="2" placeholder="C." class="w-full px-3 py-2 border rounded-xl text-sm focus:ring-2 focus:ring-emerald-500 outline-none" />
+          </div>
+          <div class="col-span-2">
+            <label class="block text-xs font-semibold text-slate-700 mb-1">Last Name *</label>
+            <input type="text" id="emp-ln" required placeholder="e.g. Santos" class="w-full px-3 py-2 border rounded-xl text-sm focus:ring-2 focus:ring-emerald-500 outline-none" />
+          </div>
+        </div>
+        <div>
+          <label class="block text-xs font-semibold text-slate-700 mb-1">Email Address *</label>
+          <input type="email" id="emp-email" required placeholder="maria.santos@scarlight.ph" class="w-full px-3 py-2 border rounded-xl text-sm focus:ring-2 focus:ring-emerald-500 outline-none" />
+        </div>
+        <div>
+          <label class="block text-xs font-semibold text-slate-700 mb-1">Phone Number</label>
+          <input type="text" id="emp-phone" placeholder="+63 917 123 4567" class="w-full px-3 py-2 border rounded-xl text-sm focus:ring-2 focus:ring-emerald-500 outline-none" />
+        </div>
+        <p class="text-[11px] text-slate-400 italic">* Philippine Government SSS, Pag-IBIG, PhilHealth, and BIR numbers will be auto-generated upon record submission.</p>
+        <div class="pt-2 flex justify-end gap-3">
+          <button type="button" onclick="closeEmployeeModal()" class="px-4 py-2 text-xs font-semibold text-slate-600 hover:bg-slate-100 rounded-xl transition">Cancel</button>
+          <button type="submit" class="px-4 py-2 text-xs font-semibold bg-emerald-600 hover:bg-emerald-700 text-white rounded-xl shadow transition">Save Employee Record</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- MODAL: ADD ATS CANDIDATE -->
+  <div id="modal-candidate" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
+    <div class="bg-white rounded-2xl shadow-2xl max-w-md w-full overflow-hidden border border-slate-100">
+      <div class="px-6 py-4 bg-gradient-to-r from-emerald-800 to-teal-800 text-white flex items-center justify-between">
+        <h3 class="font-bold text-base flex items-center gap-2"><i data-lucide="briefcase" class="w-5 h-5"></i> Add ATS Applicant</h3>
+        <button onclick="closeCandidateModal()" class="text-emerald-200 hover:text-white"><i data-lucide="x" class="w-5 h-5"></i></button>
+      </div>
+      <form id="form-add-candidate" onsubmit="handleAddCandidate(event)" class="p-6 space-y-4">
+        <div>
+          <label class="block text-xs font-semibold text-slate-700 mb-1">Candidate Full Name *</label>
+          <input type="text" id="cand-name" required placeholder="e.g. Alexandra D. Reyes" class="w-full px-3 py-2 border rounded-xl text-sm focus:ring-2 focus:ring-emerald-500 outline-none" />
+        </div>
+        <div>
+          <label class="block text-xs font-semibold text-slate-700 mb-1">Position Applied For *</label>
+          <input type="text" id="cand-role" required placeholder="e.g. Sourcing Specialist" class="w-full px-3 py-2 border rounded-xl text-sm focus:ring-2 focus:ring-emerald-500 outline-none" />
+        </div>
+        <div>
+          <label class="block text-xs font-semibold text-slate-700 mb-1">Initial Recruitment Stage</label>
+          <select id="cand-stage" class="w-full px-3 py-2 border rounded-xl text-sm focus:ring-2 focus:ring-emerald-500 outline-none bg-white">
+            <option value="applied">Applied</option>
+            <option value="interviewing">Interviewing</option>
+            <option value="offered">Offered</option>
+            <option value="hired">Hired</option>
+          </select>
+        </div>
+        <div class="pt-2 flex justify-end gap-3">
+          <button type="button" onclick="closeCandidateModal()" class="px-4 py-2 text-xs font-semibold text-slate-600 hover:bg-slate-100 rounded-xl transition">Cancel</button>
+          <button type="submit" class="px-4 py-2 text-xs font-semibold bg-emerald-600 hover:bg-emerald-700 text-white rounded-xl shadow transition">Add Candidate</button>
+        </div>
+      </form>
+    </div>
   </div>
 
   <script>
     // Initialize Lucide Icons
     lucide.createIcons();
 
-    // Tab Switching Logic
-    function switchTab(tabId) {
-      document.querySelectorAll('.tab-content').forEach(tab => {
-        tab.classList.remove('active');
-      });
+    // Data Storage
+    let employees = [];
+    let candidates = [
+      { id: 1, name: "Alexandra Reyes", role: "Sourcing Specialist", stage: "applied" },
+      { id: 2, name: "Jerome Vance", role: "HR Operations Lead", stage: "interviewing" },
+      { id: 3, name: "Bernadette Tan", role: "Senior Recruiter", stage: "interviewing" },
+      { id: 4, name: "Carlos Mendoza", role: "Compensation Analyst", stage: "offered" },
+      { id: 5, name: "Diana Lim", role: "Payroll Specialist", stage: "hired" }
+    ];
 
-      document.querySelectorAll('.nav-btn').forEach(btn => {
-        btn.classList.remove('bg-gradient-to-r', 'from-emerald-600', 'to-teal-600', 'text-white', 'shadow-md');
-        btn.classList.add('hover:bg-emerald-900/50', 'hover:text-white');
-      });
-
-      const targetTab = document.getElementById(`tab-${tabId}`);
-      if (targetTab) {
-        targetTab.classList.add('active');
-      }
-
-      const activeBtn = document.getElementById(`nav-${tabId}`);
-      if (activeBtn) {
-        activeBtn.classList.add('bg-gradient-to-r', 'from-emerald-600', 'to-teal-600', 'text-white', 'shadow-md');
-        activeBtn.classList.remove('hover:bg-emerald-900/50', 'hover:text-white');
-      }
-    }
-
-    // GENERATE 20 PHILIPPINE EMPLOYEES WITH GOV IDS
+    // INITIAL SEED DATA FOR EMPLOYEES
     const firstNames = ["Juan", "Maria", "Mark", "Angelica", "Jose", "Christine", "Paulo", "Samantha", "Christian", "Patricia", "Gabriel", "Rhea", "Daniel", "Camille", "Anthony", "Bea", "Joshua", "Nicole", "Kevin", "Alyssa"];
     const middleInitials = ["A.", "B.", "C.", "D.", "E.", "G.", "H.", "L.", "M.", "N.", "P.", "R.", "S.", "T.", "V."];
     const lastNames = ["Santos", "Reyes", "Cruz", "Bautista", "Ocampo", "Garcia", "Mendoza", "Torres", "Tomas", "Andrada", "Del Rosario", "Flores", "Villanueva", "Ramos", "Castro", "Corpuz", "Aquino", "Navarro", "Salazar", "Mercado"];
@@ -355,43 +447,202 @@
       return result;
     }
 
-    function generateEmployees() {
-      const tbody = document.getElementById('employee-table-body');
-      tbody.innerHTML = '';
-
+    function initEmployees() {
       for (let i = 1; i <= 20; i++) {
         const fn = firstNames[(i - 1) % firstNames.length];
         const mi = middleInitials[(i * 3) % middleInitials.length];
         const ln = lastNames[(i - 1) % lastNames.length];
-        const fullName = `${fn} ${mi} ${ln}`;
         
-        const email = `${fn.toLowerCase()}.${ln.toLowerCase()}@scarlight.ph`;
-        const phone = `+63 9${randomNumString(2)} ${randomNumString(3)} ${randomNumString(4)}`;
-        
-        // Realistic PH ID formats
-        const sss = `${randomNumString(2)}-${randomNumString(7)}-${randomNumString(1)}`;
-        const pagibig = `${randomNumString(4)}-${randomNumString(4)}-${randomNumString(4)}`;
-        const philhealth = `${randomNumString(2)}-${randomNumString(9)}-${randomNumString(1)}`;
-        const bir = `${randomNumString(3)}-${randomNumString(3)}-${randomNumString(3)}-000`;
+        employees.push({
+          id: i,
+          fullName: `${fn} ${mi} ${ln}`,
+          email: `${fn.toLowerCase()}.${ln.toLowerCase()}@scarlight.ph`,
+          phone: `+63 9${randomNumString(2)} ${randomNumString(3)} ${randomNumString(4)}`,
+          sss: `${randomNumString(2)}-${randomNumString(7)}-${randomNumString(1)}`,
+          pagibig: `${randomNumString(4)}-${randomNumString(4)}-${randomNumString(4)}`,
+          philhealth: `${randomNumString(2)}-${randomNumString(9)}-${randomNumString(1)}`,
+          bir: `${randomNumString(3)}-${randomNumString(3)}-${randomNumString(3)}-000`
+        });
+      }
+      renderEmployees();
+      renderATS();
+    }
 
+    // RENDER EMPLOYEE TABLE
+    function renderEmployees(filteredList = null) {
+      const tbody = document.getElementById('employee-table-body');
+      tbody.innerHTML = '';
+      const listToRender = filteredList || employees;
+
+      listToRender.forEach((emp, index) => {
         const tr = document.createElement('tr');
         tr.className = "hover:bg-emerald-50/40 transition-colors";
         tr.innerHTML = `
-          <td class="py-3.5 px-4 text-slate-400 font-medium">${i}</td>
-          <td class="py-3.5 px-4 font-semibold text-slate-900">${fullName}</td>
-          <td class="py-3.5 px-4 text-emerald-700 font-medium">${email}</td>
-          <td class="py-3.5 px-4 text-slate-600">${phone}</td>
-          <td class="py-3.5 px-4 font-mono text-slate-600">${sss}</td>
-          <td class="py-3.5 px-4 font-mono text-slate-600">${pagibig}</td>
-          <td class="py-3.5 px-4 font-mono text-slate-600">${philhealth}</td>
-          <td class="py-3.5 px-4 font-mono text-slate-600">${bir}</td>
+          <td class="py-3.5 px-4 text-slate-400 font-medium">${index + 1}</td>
+          <td class="py-3.5 px-4 font-semibold text-slate-900">${emp.fullName}</td>
+          <td class="py-3.5 px-4 text-emerald-700 font-medium">${emp.email}</td>
+          <td class="py-3.5 px-4 text-slate-600">${emp.phone}</td>
+          <td class="py-3.5 px-4 font-mono text-slate-600">${emp.sss}</td>
+          <td class="py-3.5 px-4 font-mono text-slate-600">${emp.pagibig}</td>
+          <td class="py-3.5 px-4 font-mono text-slate-600">${emp.philhealth}</td>
+          <td class="py-3.5 px-4 font-mono text-slate-600">${emp.bir}</td>
+          <td class="py-3.5 px-4 text-center">
+            <button onclick="deleteEmployee(${emp.id})" class="text-slate-400 hover:text-rose-600 p-1 transition" title="Delete Record">
+              <i data-lucide="trash-2" class="w-4 h-4"></i>
+            </button>
+          </td>
         `;
         tbody.appendChild(tr);
+      });
+
+      document.getElementById('dash-emp-count').innerText = `${employees.length} Active`;
+      lucide.createIcons();
+    }
+
+    // FILTER EMPLOYEES
+    function filterEmployeeTable() {
+      const query = document.getElementById('global-search').value.toLowerCase();
+      const filtered = employees.filter(emp => 
+        emp.fullName.toLowerCase().includes(query) ||
+        emp.email.toLowerCase().includes(query) ||
+        emp.phone.toLowerCase().includes(query)
+      );
+      renderEmployees(filtered);
+    }
+
+    // DELETE EMPLOYEE
+    function deleteEmployee(id) {
+      employees = employees.filter(e => e.id !== id);
+      renderEmployees();
+    }
+
+    // EMPLOYEE MODAL CONTROLS
+    function openEmployeeModal() { document.getElementById('modal-employee').classList.remove('hidden'); }
+    function closeEmployeeModal() { document.getElementById('modal-employee').classList.add('hidden'); }
+
+    function handleAddEmployee(e) {
+      e.preventDefault();
+      const fn = document.getElementById('emp-fn').value;
+      const mi = document.getElementById('emp-mi').value ? document.getElementById('emp-mi').value + ' ' : '';
+      const ln = document.getElementById('emp-ln').value;
+      const email = document.getElementById('emp-email').value;
+      const phone = document.getElementById('emp-phone').value || `+63 9${randomNumString(2)} ${randomNumString(3)} ${randomNumString(4)}`;
+
+      const newEmp = {
+        id: Date.now(),
+        fullName: `${fn} ${mi}${ln}`,
+        email: email,
+        phone: phone,
+        sss: `${randomNumString(2)}-${randomNumString(7)}-${randomNumString(1)}`,
+        pagibig: `${randomNumString(4)}-${randomNumString(4)}-${randomNumString(4)}`,
+        philhealth: `${randomNumString(2)}-${randomNumString(9)}-${randomNumString(1)}`,
+        bir: `${randomNumString(3)}-${randomNumString(3)}-${randomNumString(3)}-000`
+      };
+
+      employees.unshift(newEmp);
+      renderEmployees();
+      closeEmployeeModal();
+      document.getElementById('form-add-employee').reset();
+    }
+
+    // ATS RECRUITMENT BOARD LOGIC
+    const stages = ['applied', 'interviewing', 'offered', 'hired'];
+
+    function renderATS() {
+      stages.forEach(stage => {
+        const col = document.getElementById(`col-${stage}`);
+        col.innerHTML = '';
+        const stageCandidates = candidates.filter(c => c.stage === stage);
+        document.getElementById(`count-${stage}`).innerText = stageCandidates.length;
+
+        stageCandidates.forEach(c => {
+          const card = document.createElement('div');
+          card.className = "bg-white p-4 rounded-xl border border-slate-200 shadow-sm hover:shadow-md transition space-y-2";
+          
+          let actionButtons = '';
+          const currentIndex = stages.indexOf(stage);
+          
+          if (currentIndex > 0) {
+            actionButtons += `<button onclick="moveCandidate(${c.id}, '${stages[currentIndex - 1]}')" class="px-2 py-1 bg-slate-100 hover:bg-slate-200 text-slate-600 rounded text-[10px] font-semibold">← Back</button>`;
+          }
+          if (currentIndex < stages.length - 1) {
+            actionButtons += `<button onclick="moveCandidate(${c.id}, '${stages[currentIndex + 1]}')" class="px-2 py-1 bg-emerald-600 hover:bg-emerald-700 text-white rounded text-[10px] font-semibold">Advance →</button>`;
+          }
+
+          card.innerHTML = `
+            <div class="flex items-start justify-between">
+              <div>
+                <p class="font-bold text-sm text-slate-800">${c.name}</p>
+                <p class="text-xs text-emerald-700 font-medium">${c.role}</p>
+              </div>
+              <button onclick="deleteCandidate(${c.id})" class="text-slate-300 hover:text-rose-500"><i data-lucide="x-circle" class="w-4 h-4"></i></button>
+            </div>
+            <div class="pt-2 border-t border-slate-100 flex items-center justify-between">
+              ${actionButtons}
+            </div>
+          `;
+          col.appendChild(card);
+        });
+      });
+
+      document.getElementById('dash-ats-count').innerText = `${candidates.length} Candidates`;
+      lucide.createIcons();
+    }
+
+    function moveCandidate(id, newStage) {
+      const candidate = candidates.find(c => c.id === id);
+      if (candidate) {
+        candidate.stage = newStage;
+        renderATS();
       }
     }
 
-    // Populate table on load
-    window.onload = generateEmployees;
+    function deleteCandidate(id) {
+      candidates = candidates.filter(c => c.id !== id);
+      renderATS();
+    }
+
+    function openCandidateModal() { document.getElementById('modal-candidate').classList.remove('hidden'); }
+    function closeCandidateModal() { document.getElementById('modal-candidate').classList.add('hidden'); }
+
+    function handleAddCandidate(e) {
+      e.preventDefault();
+      const name = document.getElementById('cand-name').value;
+      const role = document.getElementById('cand-role').value;
+      const stage = document.getElementById('cand-stage').value;
+
+      candidates.push({
+        id: Date.now(),
+        name: name,
+        role: role,
+        stage: stage
+      });
+
+      renderATS();
+      closeCandidateModal();
+      document.getElementById('form-add-candidate').reset();
+    }
+
+    // TAB SWITCHER
+    function switchTab(tabId) {
+      document.querySelectorAll('.tab-content').forEach(tab => tab.classList.remove('active'));
+      document.querySelectorAll('.nav-btn').forEach(btn => {
+        btn.classList.remove('bg-gradient-to-r', 'from-emerald-600', 'to-teal-600', 'text-white', 'shadow-md');
+        btn.classList.add('hover:bg-emerald-900/50', 'hover:text-white');
+      });
+
+      const targetTab = document.getElementById(`tab-${tabId}`);
+      if (targetTab) targetTab.classList.add('active');
+
+      const activeBtn = document.getElementById(`nav-${tabId}`);
+      if (activeBtn) {
+        activeBtn.classList.add('bg-gradient-to-r', 'from-emerald-600', 'to-teal-600', 'text-white', 'shadow-md');
+        activeBtn.classList.remove('hover:bg-emerald-900/50', 'hover:text-white');
+      }
+    }
+
+    // Initialize Application
+    window.onload = initEmployees;
   </script>
 </body>
 </html>
