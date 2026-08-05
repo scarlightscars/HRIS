@@ -1,466 +1,320 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Scarlight HR - Modern Human Resource Management System</title>
-  <!-- Tailwind CSS CDN -->
-  <script src="https://cdn.tailwindcss.com"></script>
-  <!-- Lucide Icons -->
-  <script src="https://unpkg.com/lucide@latest"></script>
-  <script>
-    tailwind.config = {
-      theme: {
-        extend: {
-          colors: {
-            brand: {
-              50: '#ecfdf5',
-              100: '#d1fae5',
-              500: '#10b981',
-              600: '#059669',
-              700: '#047857',
-              800: '#065f46',
-              900: '#064e3b',
-            }
-          },
-          animation: {
-            'gradient-x': 'gradient-x 8s ease infinite',
-            'float': 'float 6s ease-in-out infinite',
-            'pulse-slow': 'pulse 4s cubic-bezier(0.4, 0, 0.6, 1) infinite',
-          },
-          keyframes: {
-            'gradient-x': {
-              '0%, 100%': { 'background-size': '200% 200%', 'background-position': 'left center' },
-              '50%': { 'background-size': '200% 200%', 'background-position': 'right center' },
-            },
-            'float': {
-              '0%, 100%': { transform: 'translateY(0px) rotate(0deg)' },
-              '50%': { transform: 'translateY(-10px) rotate(3deg)' },
-            }
-          }
-        }
-      }
-    }
-  </script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>HR & Employee Portal</title>
   <style>
-    .tab-content { display: none; }
-    .tab-content.active { display: block; }
+    :root {
+      --primary: #2563eb;
+      --primary-dark: #1d4ed8;
+      --bg: #f8fafc;
+      --card-bg: #ffffff;
+      --text: #0f172a;
+      --text-muted: #64748b;
+      --border: #e2e8f0;
+      --success: #16a34a;
+      --danger: #dc2626;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; }
+    body { background-color: var(--bg); color: var(--text); padding: 20px; display: flex; justify-content: center; }
+    .container { width: 100%; max-width: 900px; }
+
+    /* Common Card Styles */
+    .card { background: var(--card-bg); border-radius: 12px; border: 1px solid var(--border); padding: 24px; margin-bottom: 20px; box-shadow: 0 1px 3px rgba(0,0,0,0.05); }
+    h2 { font-size: 1.25rem; margin-bottom: 16px; font-weight: 600; }
     
-    ::-webkit-scrollbar { width: 6px; height: 6px; }
-    ::-webkit-scrollbar-track { background: #f1f5f9; }
-    ::-webkit-scrollbar-thumb { background: #10b981; border-radius: 4px; }
-    ::-webkit-scrollbar-thumb:hover { background: #059669; }
+    /* Login Styling */
+    .login-box { max-width: 400px; margin: 80px auto 0; }
+    .form-group { margin-bottom: 16px; }
+    label { display: block; font-size: 0.875rem; font-weight: 500; margin-bottom: 6px; color: var(--text-muted); }
+    input, select, textarea { width: 100%; padding: 10px 12px; border: 1px solid var(--border); border-radius: 6px; font-size: 0.95rem; outline: none; }
+    input:focus, select:focus, textarea:focus { border-color: var(--primary); }
     
-    .ats-card { cursor: grab; }
-    .ats-card:active { cursor: grabbing; }
-    .drag-over { background-color: #ecfdf5 !important; border-color: #10b981 !important; border-style: dashed !important; }
+    .btn { display: inline-block; width: 100%; padding: 10px 16px; border: none; border-radius: 6px; font-weight: 600; cursor: pointer; text-align: center; transition: background 0.2s; }
+    .btn-primary { background: var(--primary); color: white; }
+    .btn-primary:hover { background: var(--primary-dark); }
+    .btn-success { background: var(--success); color: white; }
+    .btn-danger { background: var(--danger); color: white; }
+    .btn-secondary { background: #e2e8f0; color: var(--text); }
+    
+    /* Layout Header */
+    .portal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px; padding-bottom: 12px; border-bottom: 1px solid var(--border); }
+    .user-info { font-size: 0.9rem; color: var(--text-muted); }
+    
+    /* Clock Widget */
+    .clock-display { text-align: center; margin: 20px 0; }
+    .time { font-size: 2.5rem; font-weight: 700; color: var(--text); }
+    .date { font-size: 1rem; color: var(--text-muted); }
+    .clock-actions { display: flex; gap: 12px; margin-top: 16px; }
+
+    /* Tables */
+    table { width: 100%; border-collapse: collapse; margin-top: 12px; font-size: 0.9rem; }
+    th, td { text-align: left; padding: 10px 12px; border-bottom: 1px solid var(--border); }
+    th { color: var(--text-muted); font-weight: 600; background: #f1f5f9; }
+    
+    .badge { padding: 4px 8px; border-radius: 4px; font-size: 0.75rem; font-weight: 600; display: inline-block; }
+    .badge-pending { background: #fef3c7; color: #d97706; }
+    .badge-approved { background: #dcfce7; color: #15803d; }
+    .badge-rejected { background: #fee2e2; color: #b91c1c; }
+
+    /* Utilities */
+    .hidden { display: none !important; }
+    .flex-gap { display: flex; gap: 8px; }
   </style>
 </head>
-<body class="bg-slate-50 font-sans text-slate-800 antialiased flex h-screen overflow-hidden">
+<body>
 
-  <!-- SIDEBAR NAVIGATION -->
-  <aside class="w-64 bg-gradient-to-b from-emerald-950 via-brand-900 to-slate-950 text-emerald-100 flex flex-col justify-between shrink-0 shadow-2xl z-20 relative overflow-hidden">
-    <div class="absolute -top-16 -left-16 w-48 h-48 bg-emerald-500/10 rounded-full blur-3xl animate-pulse-slow pointer-events-none"></div>
-    <div class="absolute bottom-10 -right-10 w-40 h-40 bg-teal-400/10 rounded-full blur-2xl animate-float pointer-events-none"></div>
+<div class="container">
 
-    <div class="z-10">
-      <!-- Brand Logo -->
-      <div class="h-16 flex items-center px-6 gap-3 border-b border-emerald-800/40 bg-slate-950/20 backdrop-blur-md">
-        <div class="w-9 h-9 rounded-xl bg-gradient-to-tr from-emerald-500 to-teal-300 flex items-center justify-center text-slate-950 font-black shadow-lg shadow-emerald-500/20 animate-float">
-          <i data-lucide="sparkles" class="w-5 h-5"></i>
-        </div>
-        <span class="text-xl font-bold tracking-tight text-white">Scarlight <span class="text-emerald-400 font-extrabold">HR</span></span>
+  <!-- ================= LOGGING VIEW ================= -->
+  <div id="login-view" class="card login-box">
+    <h2>Portal Sign In</h2>
+    <form id="login-form">
+      <div class="form-group">
+        <label for="username">Username / ID</label>
+        <input type="text" id="username" placeholder="e.g. emp01 or admin" required>
       </div>
-
-      <!-- Navigation Links -->
-      <nav class="p-4 space-y-1.5 text-sm font-medium">
-        <button onclick="switchTab('dashboard')" id="nav-dashboard" class="nav-btn active w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-white bg-gradient-to-r from-emerald-600 to-teal-600 shadow-md shadow-emerald-900/40 transition-all duration-200">
-          <i data-lucide="layout-dashboard" class="w-4 h-4"></i> Dashboard
-        </button>
-        <button onclick="switchTab('directory')" id="nav-directory" class="nav-btn w-full flex items-center gap-3 px-3 py-2.5 rounded-xl hover:bg-emerald-900/50 hover:text-white transition-all duration-200">
-          <i data-lucide="users" class="w-4 h-4"></i> Employee Directory
-        </button>
-        <button onclick="switchTab('leave')" id="nav-leave" class="nav-btn w-full flex items-center gap-3 px-3 py-2.5 rounded-xl hover:bg-emerald-900/50 hover:text-white transition-all duration-200">
-          <i data-lucide="calendar" class="w-4 h-4"></i> Time & Leave
-        </button>
-        <button onclick="switchTab('payroll')" id="nav-payroll" class="nav-btn w-full flex items-center gap-3 px-3 py-2.5 rounded-xl hover:bg-emerald-900/50 hover:text-white transition-all duration-200">
-          <i data-lucide="wallet" class="w-4 h-4"></i> Payroll & Comp
-        </button>
-        <button onclick="switchTab('recruitment')" id="nav-recruitment" class="nav-btn w-full flex items-center gap-3 px-3 py-2.5 rounded-xl hover:bg-emerald-900/50 hover:text-white transition-all duration-200">
-          <i data-lucide="briefcase" class="w-4 h-4"></i> Recruitment (ATS)
-        </button>
-        <button onclick="switchTab('documents')" id="nav-documents" class="nav-btn w-full flex items-center gap-3 px-3 py-2.5 rounded-xl hover:bg-emerald-900/50 hover:text-white transition-all duration-200">
-          <i data-lucide="folder-check" class="w-4 h-4"></i> Documents
-        </button>
-        <button onclick="switchTab('settings')" id="nav-settings" class="nav-btn w-full flex items-center gap-3 px-3 py-2.5 rounded-xl hover:bg-emerald-900/50 hover:text-white transition-all duration-200">
-          <i data-lucide="settings" class="w-4 h-4"></i> Settings
-        </button>
-      </nav>
-    </div>
-
-    <!-- Profile Footer -->
-    <div class="p-4 border-t border-emerald-800/40 bg-slate-950/30 flex items-center gap-3 z-10">
-      <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&q=80&w=100" alt="Avatar" class="w-9 h-9 rounded-full object-cover ring-2 ring-emerald-400" />
-      <div class="truncate text-xs">
-        <p class="font-semibold text-white truncate">Elena Rostova</p>
-        <p class="text-emerald-300 truncate">HR Administrator</p>
+      <div class="form-group">
+        <label for="role">Select Portal Role</label>
+        <select id="role">
+          <option value="employee">Employee Portal</option>
+          <option value="admin">Admin / Master Control</option>
+        </select>
       </div>
-    </div>
-  </aside>
-
-  <!-- MAIN CONTENT AREA -->
-  <div class="flex-1 flex flex-col h-screen overflow-hidden relative">
-
-    <!-- TOP HEADER -->
-    <header class="h-16 bg-white border-b border-slate-200 flex items-center justify-between px-8 z-10 relative overflow-hidden shadow-sm">
-      <div class="absolute right-0 top-0 h-full w-1/3 bg-gradient-to-l from-emerald-100/50 via-teal-50/20 to-transparent pointer-events-none animate-gradient-x"></div>
-
-      <div class="flex items-center gap-4 w-1/3 z-10">
-        <div class="relative w-full">
-          <i data-lucide="search" class="w-4 h-4 absolute left-3 top-1/2 -translate-y-1/2 text-slate-400"></i>
-          <input type="text" id="global-search" oninput="filterEmployeeTable()" placeholder="Search employee names, emails, phones..." class="w-full pl-9 pr-4 py-2 bg-slate-100 rounded-lg text-sm border-none focus:ring-2 focus:ring-emerald-500 outline-none transition" />
-        </div>
-      </div>
-      
-      <div class="flex items-center gap-4 z-10">
-        <button class="relative p-2 rounded-lg text-slate-500 hover:bg-slate-100 transition" onclick="alert('System Notifications: All services functional.')">
-          <i data-lucide="bell" class="w-5 h-5"></i>
-          <span class="absolute top-1.5 right-1.5 w-2 h-2 bg-emerald-500 rounded-full animate-ping"></span>
-          <span class="absolute top-1.5 right-1.5 w-2 h-2 bg-emerald-500 rounded-full"></span>
-        </button>
-        <div class="h-6 w-px bg-slate-200"></div>
-        <span class="text-xs font-semibold px-3 py-1 rounded-full bg-emerald-50 text-emerald-700 border border-emerald-200 flex items-center gap-1.5">
-          <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span> Scarlight v2.5 Active
-        </span>
-      </div>
-    </header>
-
-    <!-- MAIN Dynamic Tab Switcher -->
-    <main class="flex-1 overflow-y-auto p-8 relative">
-      <div class="absolute top-10 right-10 w-96 h-96 bg-gradient-to-tr from-emerald-200/20 to-teal-200/20 rounded-full blur-3xl pointer-events-none animate-float"></div>
-
-      <!-- 1. DASHBOARD TAB -->
-      <section id="tab-dashboard" class="tab-content active space-y-6 relative z-10">
-        <div>
-          <h1 class="text-2xl font-bold text-slate-900">Welcome to Scarlight HR 👋</h1>
-          <p class="text-sm text-slate-500">Real-time overview of personnel statistics and HR workflows.</p>
-        </div>
-
-        <div class="grid grid-cols-1 md:grid-cols-4 gap-5">
-          <div onclick="switchTab('directory')" class="bg-white p-5 rounded-2xl border border-emerald-100 shadow-sm hover:shadow-md hover:border-emerald-300 transition cursor-pointer flex items-center justify-between group">
-            <div>
-              <p class="text-xs font-medium text-slate-500">Total Workforce</p>
-              <h3 class="text-2xl font-bold text-slate-900 mt-1" id="dash-emp-count">5 Active</h3>
-              <p class="text-xs text-emerald-600 mt-1 font-medium group-hover:underline flex items-center gap-1">View Directory <i data-lucide="arrow-right" class="w-3 h-3"></i></p>
-            </div>
-            <div class="p-3 bg-emerald-50 text-emerald-600 rounded-xl group-hover:scale-105 transition"><i data-lucide="users" class="w-6 h-6"></i></div>
-          </div>
-
-          <div onclick="switchTab('recruitment')" class="bg-white p-5 rounded-2xl border border-emerald-100 shadow-sm hover:shadow-md hover:border-emerald-300 transition cursor-pointer flex items-center justify-between group">
-            <div>
-              <p class="text-xs font-medium text-slate-500">Active ATS Applicants</p>
-              <h3 class="text-2xl font-bold text-slate-900 mt-1" id="dash-ats-count">3 Candidates</h3>
-              <p class="text-xs text-emerald-600 mt-1 font-medium group-hover:underline flex items-center gap-1">Open ATS <i data-lucide="arrow-right" class="w-3 h-3"></i></p>
-            </div>
-            <div class="p-3 bg-teal-50 text-teal-600 rounded-xl group-hover:scale-105 transition"><i data-lucide="briefcase" class="w-6 h-6"></i></div>
-          </div>
-
-          <div onclick="switchTab('leave')" class="bg-white p-5 rounded-2xl border border-emerald-100 shadow-sm hover:shadow-md hover:border-emerald-300 transition cursor-pointer flex items-center justify-between group">
-            <div>
-              <p class="text-xs font-medium text-slate-500">Pending Leave Requests</p>
-              <h3 class="text-2xl font-bold text-slate-900 mt-1" id="dash-leave-count">1 Pending</h3>
-              <p class="text-xs text-emerald-600 mt-1 font-medium group-hover:underline flex items-center gap-1">Review Requests <i data-lucide="arrow-right" class="w-3 h-3"></i></p>
-            </div>
-            <div class="p-3 bg-emerald-50 text-emerald-600 rounded-xl group-hover:scale-105 transition"><i data-lucide="calendar" class="w-6 h-6"></i></div>
-          </div>
-
-          <div onclick="switchTab('payroll')" class="bg-white p-5 rounded-2xl border border-emerald-100 shadow-sm hover:shadow-md hover:border-emerald-300 transition cursor-pointer flex items-center justify-between group">
-            <div>
-              <p class="text-xs font-medium text-slate-500">Monthly Payroll Estimate</p>
-              <h3 class="text-2xl font-bold text-slate-900 mt-1" id="dash-payroll-est">₱225,000.00</h3>
-              <p class="text-xs text-emerald-600 mt-1 font-medium group-hover:underline flex items-center gap-1">Run Breakdown <i data-lucide="arrow-right" class="w-3 h-3"></i></p>
-            </div>
-            <div class="p-3 bg-teal-50 text-teal-600 rounded-xl group-hover:scale-105 transition"><i data-lucide="banknote" class="w-6 h-6"></i></div>
-          </div>
-        </div>
-
-        <div class="p-6 rounded-2xl bg-gradient-to-r from-emerald-700 via-brand-600 to-teal-700 text-white shadow-xl flex items-center justify-between relative overflow-hidden">
-          <div class="z-10">
-            <h2 class="text-lg font-bold">Philippine Government Benefits Portal Integrated</h2>
-            <p class="text-xs text-emerald-100 mt-1 max-w-xl">SSS, Pag-IBIG MID, PhilHealth ID, and BIR TIN auto-contributions are synchronized for current pay period processing.</p>
-          </div>
-          <button onclick="switchTab('directory')" class="z-10 px-4 py-2 bg-white text-emerald-800 rounded-xl text-xs font-bold hover:bg-emerald-50 transition shadow">View Directory</button>
-        </div>
-      </section>
-
-      <!-- 2. DIRECTORY TAB -->
-      <section id="tab-directory" class="tab-content space-y-6 relative z-10">
-        <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
-          <div>
-            <h1 class="text-2xl font-bold text-slate-900">Employee Directory</h1>
-            <p class="text-sm text-slate-500">Manage workforce profiles and statutory contributions.</p>
-          </div>
-        </div>
-
-        <div class="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden">
-          <div class="overflow-x-auto max-h-[calc(100vh-250px)]">
-            <table class="w-full text-left text-xs whitespace-nowrap">
-              <thead class="bg-slate-50 text-slate-500 border-b border-slate-200 uppercase tracking-wider font-semibold sticky top-0 bg-slate-50 z-10">
-                <tr>
-                  <th class="py-4 px-4">#</th>
-                  <th class="py-4 px-4">Full Name</th>
-                  <th class="py-4 px-4">Email Address</th>
-                  <th class="py-4 px-4">Phone Number</th>
-                  <th class="py-4 px-4">SSS Number</th>
-                  <th class="py-4 px-4">Pag-IBIG MID</th>
-                  <th class="py-4 px-4">PhilHealth ID</th>
-                  <th class="py-4 px-4">BIR TIN</th>
-                </tr>
-              </thead>
-              <tbody id="employee-table-body" class="divide-y divide-slate-100"></tbody>
-            </table>
-          </div>
-        </div>
-      </section>
-
-      <!-- 3. TIME & LEAVE TAB -->
-      <section id="tab-leave" class="tab-content space-y-6">
-        <div>
-          <h1 class="text-2xl font-bold text-slate-900">Time & Leave Management</h1>
-          <p class="text-sm text-slate-500">Track PTO requests, approve applications, and review staff balances.</p>
-        </div>
-
-        <div class="bg-white rounded-2xl border border-slate-200 shadow-sm p-6">
-          <h2 class="text-base font-bold text-slate-900 mb-4">Pending Leave Requests</h2>
-          <div id="leave-requests-container" class="space-y-3">
-            <div class="p-4 bg-slate-50 rounded-xl border border-slate-200 flex justify-between items-center">
-              <div>
-                <p class="font-bold text-sm text-slate-800">Sarah Jenkins — Vacation Leave</p>
-                <p class="text-xs text-slate-500">Aug 12, 2026 - Aug 15, 2026 (3 Days)</p>
-              </div>
-              <div class="flex gap-2">
-                <button onclick="alert('Leave Request Approved')" class="px-3 py-1 bg-emerald-600 text-white rounded-lg text-xs font-semibold">Approve</button>
-                <button onclick="alert('Leave Request Rejected')" class="px-3 py-1 bg-slate-200 text-slate-700 rounded-lg text-xs font-semibold">Reject</button>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <!-- 4. PAYROLL TAB -->
-      <section id="tab-payroll" class="tab-content space-y-6">
-        <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
-          <div>
-            <h1 class="text-2xl font-bold text-slate-900">Payroll & Mandatory Contributions</h1>
-            <p class="text-sm text-slate-500">Itemized calculation of statutory deductions.</p>
-          </div>
-          <button onclick="runPayrollSimulation()" class="px-4 py-2 bg-gradient-to-r from-emerald-600 to-teal-600 text-white rounded-xl text-sm font-semibold flex items-center gap-2 shadow-md hover:from-emerald-700 hover:to-teal-700 transition">
-            <i data-lucide="calculator" class="w-4 h-4"></i> Run Payroll Simulation
-          </button>
-        </div>
-
-        <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm flex items-center justify-between">
-          <div>
-            <span class="text-xs font-semibold px-2.5 py-1 rounded-full bg-emerald-50 text-emerald-700 border border-emerald-200">Semi-Monthly Processing</span>
-            <h3 class="text-lg font-bold text-slate-900 mt-2">Current Pay Period Cutoff</h3>
-          </div>
-          <div class="text-right">
-            <p class="text-xs text-slate-500">Estimated Total Gross Pay</p>
-            <p class="text-xl font-bold text-emerald-700" id="payroll-gross-display">₱0.00</p>
-          </div>
-        </div>
-
-        <div class="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden">
-          <div class="overflow-x-auto max-h-[calc(100vh-320px)]">
-            <table class="w-full text-left text-xs whitespace-nowrap">
-              <thead class="bg-slate-50 text-slate-500 border-b border-slate-200 uppercase font-semibold sticky top-0 z-10">
-                <tr>
-                  <th class="py-3 px-4">Employee</th>
-                  <th class="py-3 px-4">Gross Basic Pay</th>
-                  <th class="py-3 px-4">SSS (4.5%)</th>
-                  <th class="py-3 px-4">Pag-IBIG (2%)</th>
-                  <th class="py-3 px-4">PhilHealth (2.5%)</th>
-                  <th class="py-3 px-4 font-bold text-emerald-700">Net Pay</th>
-                </tr>
-              </thead>
-              <tbody id="payroll-table-body" class="divide-y divide-slate-100"></tbody>
-            </table>
-          </div>
-        </div>
-      </section>
-
-      <!-- 5. RECRUITMENT TAB (ATS) -->
-      <section id="tab-recruitment" class="tab-content space-y-6">
-        <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
-          <div>
-            <h1 class="text-2xl font-bold text-slate-900">Applicant Tracking System (ATS)</h1>
-            <p class="text-sm text-slate-500">Pipeline stages for current open requisitions.</p>
-          </div>
-        </div>
-
-        <div class="grid grid-cols-1 md:grid-cols-4 gap-5">
-          <div class="bg-slate-100/80 p-4 rounded-2xl border border-slate-200 flex flex-col h-[calc(100vh-220px)]">
-            <span class="text-xs font-bold text-slate-700 uppercase mb-3 flex items-center gap-2"><span class="w-2 h-2 rounded-full bg-blue-500"></span> Applied</span>
-            <div id="col-applied" class="space-y-3 overflow-y-auto flex-1"></div>
-          </div>
-          <div class="bg-slate-100/80 p-4 rounded-2xl border border-slate-200 flex flex-col h-[calc(100vh-220px)]">
-            <span class="text-xs font-bold text-slate-700 uppercase mb-3 flex items-center gap-2"><span class="w-2 h-2 rounded-full bg-amber-500"></span> Interviewing</span>
-            <div id="col-interviewing" class="space-y-3 overflow-y-auto flex-1"></div>
-          </div>
-          <div class="bg-slate-100/80 p-4 rounded-2xl border border-slate-200 flex flex-col h-[calc(100vh-220px)]">
-            <span class="text-xs font-bold text-slate-700 uppercase mb-3 flex items-center gap-2"><span class="w-2 h-2 rounded-full bg-purple-500"></span> Offered</span>
-            <div id="col-offered" class="space-y-3 overflow-y-auto flex-1"></div>
-          </div>
-          <div class="bg-slate-100/80 p-4 rounded-2xl border border-slate-200 flex flex-col h-[calc(100vh-220px)]">
-            <span class="text-xs font-bold text-slate-700 uppercase mb-3 flex items-center gap-2"><span class="w-2 h-2 rounded-full bg-emerald-500"></span> Hired</span>
-            <div id="col-hired" class="space-y-3 overflow-y-auto flex-1"></div>
-          </div>
-        </div>
-      </section>
-
-      <!-- 6. DOCUMENTS TAB -->
-      <section id="tab-documents" class="tab-content space-y-6">
-        <div>
-          <h1 class="text-2xl font-bold text-slate-900">Document Repository</h1>
-          <p class="text-sm text-slate-500">Centralized storage for company handbooks and compliance records.</p>
-        </div>
-        <div class="bg-white p-4 rounded-2xl border border-slate-200 shadow-sm max-w-md flex items-center justify-between">
-          <div class="flex items-center gap-3">
-            <div class="p-2.5 bg-emerald-50 text-emerald-600 rounded-xl"><i data-lucide="file-text" class="w-5 h-5"></i></div>
-            <div>
-              <p class="font-bold text-sm text-slate-800">2026 Employee Handbook.pdf</p>
-              <p class="text-xs text-slate-400">2.4 MB • Active</p>
-            </div>
-          </div>
-          <button onclick="alert('Opening Document...')" class="text-emerald-600 text-xs font-semibold">Preview</button>
-        </div>
-      </section>
-
-      <!-- 7. SETTINGS TAB -->
-      <section id="tab-settings" class="tab-content space-y-6">
-        <div>
-          <h1 class="text-2xl font-bold text-slate-900">System Settings</h1>
-          <p class="text-sm text-slate-500">Manage portal notifications and statutory rules.</p>
-        </div>
-        <div class="bg-white p-6 rounded-2xl border border-slate-200 max-w-xl">
-          <p class="text-sm font-semibold text-slate-800">Company Legal Entity</p>
-          <input type="text" value="Scarlight Tech Philippines Inc." class="w-full mt-2 px-3 py-2 border rounded-xl text-sm" />
-        </div>
-      </section>
-    </main>
+      <button type="submit" class="btn btn-primary">Log In</button>
+    </form>
   </div>
 
-  <!-- JAVASCRIPT LOGIC & BRIDGING SCRIPT -->
-  <script>
-    // Initialize Lucide Icons
-    lucide.createIcons();
+  <!-- ================= EMPLOYEE VIEW ================= -->
+  <div id="employee-view" class="hidden">
+    <div class="portal-header">
+      <div>
+        <h2>Employee Dashboard</h2>
+        <span class="user-info">Logged in as: <strong id="emp-user-display">--</strong></span>
+      </div>
+      <button class="btn btn-secondary" onclick="logout()" style="width: auto;">Logout</button>
+    </div>
 
-    // Sample Data
-    const employees = [
-      { id: 1, name: "Elena Rostova", email: "elena@scarlight.ph", phone: "+63 917 111 2222", sss: "34-1234567-8", pagibig: "1211-4567-8901", philhealth: "12-345678901-2", tin: "123-456-789-000", salary: 45000 },
-      { id: 2, name: "Sarah Jenkins", email: "sarah@scarlight.ph", phone: "+63 918 222 3333", sss: "34-2345678-9", pagibig: "1211-5678-9012", philhealth: "12-456789012-3", tin: "234-567-890-000", salary: 50000 },
-      { id: 3, name: "Marcus Thorne", email: "marcus@scarlight.ph", phone: "+63 919 333 4444", sss: "34-3456789-0", pagibig: "1211-6789-0123", philhealth: "12-567890123-4", tin: "345-678-901-000", salary: 40000 },
-      { id: 4, name: "Aria Cruz", email: "aria@scarlight.ph", phone: "+63 920 444 5555", sss: "34-4567890-1", pagibig: "1211-7890-1234", philhealth: "12-678901234-5", tin: "456-789-012-000", salary: 38000 },
-      { id: 5, name: "David Chen", email: "david@scarlight.ph", phone: "+63 921 555 6666", sss: "34-5678901-2", pagibig: "1211-8901-2345", philhealth: "12-789012345-6", tin: "567-890-123-000", salary: 52000 }
-    ];
+    <!-- Time Clock Card -->
+    <div class="card">
+      <h2>Time Clock</h2>
+      <div class="clock-display">
+        <div class="time" id="live-clock">00:00:00 AM</div>
+        <div class="date" id="live-date">Loading date...</div>
+      </div>
+      <div class="clock-actions">
+        <button id="clock-in-btn" class="btn btn-success" onclick="toggleClock(true)">Clock In</button>
+        <button id="clock-out-btn" class="btn btn-danger" onclick="toggleClock(false)" disabled>Clock Out</button>
+      </div>
+      <p id="clock-status" style="margin-top: 12px; font-size: 0.875rem; text-align: center; color: var(--text-muted);"></p>
+    </div>
 
-    const candidates = [
-      { id: 101, name: "Gabriel Silang", position: "Sourcing Specialist", stage: "applied" },
-      { id: 102, name: "Hannah Reyes", position: "Ad Marketing Specialist", stage: "interviewing" },
-      { id: 103, name: "Liam Mendoza", position: "AR Specialist", stage: "offered" }
-    ];
+    <!-- File Request Card -->
+    <div class="card">
+      <h2>Submit Request / Leave Application</h2>
+      <form id="request-form">
+        <div class="form-group">
+          <label for="req-type">Request Type</label>
+          <select id="req-type">
+            <option value="Vacation Leave">Vacation Leave</option>
+            <option value="Sick Leave">Sick Leave</option>
+            <option value="Overtime Approval">Overtime Request</option>
+            <option value="Certificate of Employment">Certificate Request</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="req-details">Details / Reason</label>
+          <textarea id="req-details" rows="3" placeholder="Provide dates or details regarding your request..." required></textarea>
+        </div>
+        <button type="submit" class="btn btn-primary">Submit Request</button>
+      </form>
+    </div>
+  </div>
 
-    // Tab Switching Function
-    function switchTab(tabId) {
-      document.querySelectorAll('.tab-content').forEach(tab => tab.classList.remove('active'));
-      document.querySelectorAll('.nav-btn').forEach(btn => {
-        btn.classList.remove('bg-gradient-to-r', 'from-emerald-600', 'to-teal-600', 'text-white', 'shadow-md');
-        btn.classList.add('hover:bg-emerald-900/50');
-      });
+  <!-- ================= ADMIN VIEW ================= -->
+  <div id="admin-view" class="hidden">
+    <div class="portal-header">
+      <div>
+        <h2>Master Control Panel</h2>
+        <span class="user-info">Role: <strong>Administrator</strong></span>
+      </div>
+      <button class="btn btn-secondary" onclick="logout()" style="width: auto;">Logout</button>
+    </div>
 
-      const selectedTab = document.getElementById(`tab-${tabId}`);
-      if (selectedTab) selectedTab.classList.add('active');
-
-      const activeNav = document.getElementById(`nav-${tabId}`);
-      if (activeNav) {
-        activeNav.classList.add('bg-gradient-to-r', 'from-emerald-600', 'to-teal-600', 'text-white', 'shadow-md');
-        activeNav.classList.remove('hover:bg-emerald-900/50');
-      }
-    }
-
-    // Populate Employee Directory Table
-    function renderEmployeeTable() {
-      const tbody = document.getElementById('employee-table-body');
-      tbody.innerHTML = employees.map((emp, index) => `
-        <tr class="hover:bg-slate-50 transition">
-          <td class="py-3 px-4 font-semibold text-slate-400">${index + 1}</td>
-          <td class="py-3 px-4 font-bold text-slate-800">${emp.name}</td>
-          <td class="py-3 px-4 text-slate-600">${emp.email}</td>
-          <td class="py-3 px-4 text-slate-600">${emp.phone}</td>
-          <td class="py-3 px-4 text-slate-600">${emp.sss}</td>
-          <td class="py-3 px-4 text-slate-600">${emp.pagibig}</td>
-          <td class="py-3 px-4 text-slate-600">${emp.philhealth}</td>
-          <td class="py-3 px-4 text-slate-600">${emp.tin}</td>
-        </tr>
-      `).join('');
-    }
-
-    // Filter Employee Table via Top Search Bar
-    function filterEmployeeTable() {
-      const query = document.getElementById('global-search').value.toLowerCase();
-      const rows = document.querySelectorAll('#employee-table-body tr');
-      rows.forEach(row => {
-        const text = row.innerText.toLowerCase();
-        row.style.display = text.includes(query) ? '' : 'none';
-      });
-    }
-
-    // Populate ATS Candidates
-    function renderCandidates() {
-      ['applied', 'interviewing', 'offered', 'hired'].forEach(stage => {
-        const col = document.getElementById(`col-${stage}`);
-        const stageCands = candidates.filter(c => c.stage === stage);
-        col.innerHTML = stageCands.map(c => `
-          <div class="bg-white p-3 rounded-xl border border-slate-200 shadow-sm hover:shadow transition">
-            <p class="font-bold text-xs text-slate-800">${c.name}</p>
-            <p class="text-[11px] text-slate-500">${c.position}</p>
-          </div>
-        `).join('') || '<p class="text-[11px] text-slate-400 text-center py-4">No candidates</p>';
-      });
-    }
-
-    // Run Payroll Simulation
-    function runPayrollSimulation() {
-      let totalGross = 0;
-      const tbody = document.getElementById('payroll-table-body');
-      
-      tbody.innerHTML = employees.map(emp => {
-        const gross = emp.salary / 2; // Semi-monthly gross
-        const sss = gross * 0.045;
-        const pagibig = gross * 0.02;
-        const philhealth = gross * 0.025;
-        const net = gross - (sss + pagibig + philhealth);
-        totalGross += gross;
-
-        return `
-          <tr class="hover:bg-slate-50 transition">
-            <td class="py-3 px-4 font-bold text-slate-800">${emp.name}</td>
-            <td class="py-3 px-4 text-slate-700">₱${gross.toLocaleString('en-US', {minimumFractionDigits: 2})}</td>
-            <td class="py-3 px-4 text-slate-500">₱${sss.toLocaleString('en-US', {minimumFractionDigits: 2})}</td>
-            <td class="py-3 px-4 text-slate-500">₱${pagibig.toLocaleString('en-US', {minimumFractionDigits: 2})}</td>
-            <td class="py-3 px-4 text-slate-500">₱${philhealth.toLocaleString('en-US', {minimumFractionDigits: 2})}</td>
-            <td class="py-3 px-4 font-bold text-emerald-700">₱${net.toLocaleString('en-US', {minimumFractionDigits: 2})}</td>
+    <!-- Approvals Card -->
+    <div class="card">
+      <h2>Pending Employee Requests</h2>
+      <table>
+        <thead>
+          <tr>
+            <th>Employee</th>
+            <th>Type</th>
+            <th>Details</th>
+            <th>Status</th>
+            <th>Action</th>
           </tr>
-        `;
-      }).join('');
+        </thead>
+        <tbody id="admin-requests-table">
+          <!-- Dynamically populated -->
+        </tbody>
+      </table>
+    </div>
 
-      document.getElementById('payroll-gross-display').innerText = `₱${totalGross.toLocaleString('en-US', {minimumFractionDigits: 2})}`;
+    <!-- Time Logs Card -->
+    <div class="card">
+      <h2>Live Clock Log Audit</h2>
+      <table>
+        <thead>
+          <tr>
+            <th>Employee</th>
+            <th>Action</th>
+            <th>Timestamp</th>
+          </tr>
+        </thead>
+        <tbody id="admin-clock-table">
+          <!-- Dynamically populated -->
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+</div>
+
+<script>
+  // Simple State Management
+  const state = {
+    currentUser: null,
+    currentRole: null,
+    isClockedIn: false,
+    clockLogs: [],
+    requests: [
+      { id: 1, user: 'emp01', type: 'Vacation Leave', details: 'Dec 24 - Dec 28', status: 'Pending' }
+    ]
+  };
+
+  // Clock Functionality
+  function updateClock() {
+    const now = new Date();
+    document.getElementById('live-clock').innerText = now.toLocaleTimeString();
+    document.getElementById('live-date').innerText = now.toLocaleDateString(undefined, { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
+  }
+  setInterval(updateClock, 1000);
+  updateClock();
+
+  // Login Handler
+  document.getElementById('login-form').addEventListener('submit', (e) => {
+    e.preventDefault();
+    const user = document.getElementById('username').value.trim();
+    const role = document.getElementById('role').value;
+
+    if (!user) return;
+
+    state.currentUser = user;
+    state.currentRole = role;
+
+    document.getElementById('login-view').classList.add('hidden');
+
+    if (role === 'employee') {
+      document.getElementById('emp-user-display').innerText = user;
+      document.getElementById('employee-view').classList.remove('hidden');
+    } else {
+      document.getElementById('admin-view').classList.remove('hidden');
+      renderAdminTables();
     }
+  });
 
-    // Initial Load Execution
-    renderEmployeeTable();
-    renderCandidates();
-    runPayrollSimulation();
-  </script>
+  // Logout Handler
+  function logout() {
+    state.currentUser = null;
+    state.currentRole = null;
+    document.getElementById('login-view').classList.remove('hidden');
+    document.getElementById('employee-view').classList.add('hidden');
+    document.getElementById('admin-view').classList.add('hidden');
+  }
+
+  // Employee: Clock In/Out
+  function toggleClock(clockIn) {
+    state.isClockedIn = clockIn;
+    const timeStr = new Date().toLocaleString();
+    
+    document.getElementById('clock-in-btn').disabled = clockIn;
+    document.getElementById('clock-out-btn').disabled = !clockIn;
+    
+    const statusText = clockIn 
+      ? `Clocked IN at ${timeStr}` 
+      : `Clocked OUT at ${timeStr}`;
+    
+    document.getElementById('clock-status').innerText = statusText;
+
+    // Log action for Admin View
+    state.clockLogs.unshift({
+      user: state.currentUser,
+      action: clockIn ? 'CLOCK IN' : 'CLOCK OUT',
+      timestamp: timeStr
+    });
+  }
+
+  // Employee: Submit Request
+  document.getElementById('request-form').addEventListener('submit', (e) => {
+    e.preventDefault();
+    const type = document.getElementById('req-type').value;
+    const details = document.getElementById('req-details').value;
+
+    state.requests.push({
+      id: Date.now(),
+      user: state.currentUser,
+      type: type,
+      details: details,
+      status: 'Pending'
+    });
+
+    alert('Request submitted successfully!');
+    document.getElementById('req-details').value = '';
+  });
+
+  // Admin: Render Approvals & Logs
+  function renderAdminTables() {
+    // Render Requests
+    const reqTable = document.getElementById('admin-requests-table');
+    reqTable.innerHTML = state.requests.map(req => `
+      <tr>
+        <td><strong>${req.user}</strong></td>
+        <td>${req.type}</td>
+        <td>${req.details}</td>
+        <td><span class="badge badge-${req.status.toLowerCase()}">${req.status}</span></td>
+        <td>
+          ${req.status === 'Pending' ? `
+            <div class="flex-gap">
+              <button class="btn btn-success" style="padding: 4px 8px; font-size: 0.75rem;" onclick="updateRequestStatus(${req.id}, 'Approved')">Approve</button>
+              <button class="btn btn-danger" style="padding: 4px 8px; font-size: 0.75rem;" onclick="updateRequestStatus(${req.id}, 'Rejected')">Reject</button>
+            </div>
+          ` : '<em>Done</em>'}
+        </td>
+      </tr>
+    `).join('') || '<tr><td colspan="5" style="text-align:center;">No requests submitted yet.</td></tr>';
+
+    // Render Clock Audit
+    const clockTable = document.getElementById('admin-clock-table');
+    clockTable.innerHTML = state.clockLogs.map(log => `
+      <tr>
+        <td><strong>${log.user}</strong></td>
+        <td><span class="badge ${log.action === 'CLOCK IN' ? 'badge-approved' : 'badge-rejected'}">${log.action}</span></td>
+        <td>${log.timestamp}</td>
+      </tr>
+    `).join('') || '<tr><td colspan="3" style="text-align:center;">No active clock activity recorded yet.</td></tr>';
+  }
+
+  // Admin: Action Handler
+  function updateRequestStatus(id, newStatus) {
+    const target = state.requests.find(r => r.id === id);
+    if (target) {
+      target.status = newStatus;
+      renderAdminTables();
+    }
+  }
+</script>
+
 </body>
 </html>
