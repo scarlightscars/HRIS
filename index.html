@@ -1,271 +1,100 @@
-import React, { useState } from 'react';
+/* Dashboard Cards */
+.dashboard-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 20px;
+  padding: 20px 0;
+}
 
-// ==========================================
-// 1. DASHBOARD COMPONENT
-// ==========================================
-const Dashboard = ({ setActiveTab, metrics }) => {
-  const cards = [
-    {
-      title: 'Total Employees',
-      count: metrics.totalEmployees,
-      targetTab: 'employees',
-      icon: '👥',
-      color: '#4F46E5'
-    },
-    {
-      title: 'Pending Documents',
-      count: metrics.pendingDocs,
-      targetTab: 'documents',
-      icon: '📁',
-      color: '#F59E0B'
-    }
-  ];
+.dashboard-card {
+  background: #ffffff;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  cursor: pointer;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
 
-  return (
-    <div className="dashboard-grid">
-      {cards.map((card, index) => (
-        <div 
-          key={index} 
-          className="dashboard-card"
-          onClick={() => setActiveTab(card.targetTab)}
-          style={{ borderLeft: `4px solid ${card.color}` }}
-        >
-          <div className="card-icon" style={{ fontSize: '1.8rem' }}>{card.icon}</div>
-          <div className="card-info">
-            <h3 style={{ margin: '8px 0 4px 0' }}>{card.title}</h3>
-            <p className="card-count" style={{ fontSize: '1.5rem', fontWeight: 'bold', margin: 0 }}>
-              {card.count}
-            </p>
-          </div>
-          <span className="view-details" style={{ marginTop: '12px', fontSize: '0.85rem', color: '#4F46E5', fontWeight: '600' }}>
-            View Details &rarr;
-          </span>
-        </div>
-      ))}
-    </div>
-  );
-};
+.dashboard-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
 
-// ==========================================
-// 2. EMPLOYEE DIRECTORY COMPONENT (WITH PREVIEW)
-// ==========================================
-const EmployeeDirectory = ({ employees }) => {
-  const [selectedDoc, setSelectedDoc] = useState(null);
+.view-details {
+  margin-top: 15px;
+  font-size: 0.85rem;
+  color: #4F46E5;
+  font-weight: 600;
+}
 
-  const renderPreviewContent = (doc) => {
-    if (!doc) return null;
-    const fileType = doc.type || '';
+/* Modal Styles for Document Preview */
+.modal-backdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
 
-    // Handle Image Preview
-    if (fileType.startsWith('image/')) {
-      return <img src={doc.url} alt={doc.name} style={{ maxWidth: '100%', maxHeight: '400px', objectFit: 'contain' }} />;
-    }
+.modal-content {
+  background: #fff;
+  width: 80%;
+  max-width: 800px;
+  border-radius: 8px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  max-height: 90vh;
+}
 
-    // Handle PDF Preview
-    if (fileType === 'application/pdf') {
-      return (
-        <iframe 
-          src={doc.url} 
-          title={doc.name} 
-          width="100%" 
-          height="450px" 
-          style={{ border: 'none' }}
-        />
-      );
-    }
+.modal-header {
+  padding: 16px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid #e5e7eb;
+}
 
-    // Fallback if type isn't image or PDF
-    return (
-      <div style={{ textAlign: 'center', padding: '20px' }}>
-        <p>Preview not directly supported for this format.</p>
-        <a href={doc.url} download={doc.name} style={{ color: '#4F46E5', fontWeight: 'bold' }}>
-          Download {doc.name}
-        </a>
-      </div>
-    );
-  };
+.modal-body {
+  padding: 20px;
+  overflow-y: auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 300px;
+}
 
-  return (
-    <div className="employee-directory">
-      <h2>Employee Directory</h2>
-      <table style={{ width: '100%', borderCollapse: 'collapse', marginTop: '16px' }}>
-        <thead>
-          <tr style={{ background: '#f3f4f6', textAlign: 'left' }}>
-            <th style={{ padding: '12px' }}>Name</th>
-            <th style={{ padding: '12px' }}>Role</th>
-            <th style={{ padding: '12px' }}>Attached Documents</th>
-          </tr>
-        </thead>
-        <tbody>
-          {employees.map((emp) => (
-            <tr key={emp.id} style={{ borderBottom: '1px solid #e5e7eb' }}>
-              <td style={{ padding: '12px' }}>{emp.name}</td>
-              <td style={{ padding: '12px' }}>{emp.role}</td>
-              <td style={{ padding: '12px' }}>
-                {emp.documents && emp.documents.length > 0 ? (
-                  emp.documents.map((doc, i) => (
-                    <button 
-                      key={i} 
-                      onClick={() => setSelectedDoc(doc)}
-                      style={{
-                        background: '#e0e7ff',
-                        color: '#3730a3',
-                        border: 'none',
-                        padding: '6px 12px',
-                        borderRadius: '4px',
-                        cursor: 'pointer',
-                        marginRight: '8px'
-                      }}
-                    >
-                      📎 {doc.name}
-                    </button>
-                  ))
-                ) : (
-                  <span style={{ color: '#9ca3af' }}>No documents</span>
-                )}
-              </td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
+.modal-footer {
+  padding: 16px;
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  border-top: 1px solid #e5e7eb;
+}
 
-      {/* --- DOCUMENT PREVIEW MODAL --- */}
-      {selectedDoc && (
-        <div 
-          style={{
-            position: 'fixed', top: 0, left: 0, width: '100vw', height: '100vh',
-            background: 'rgba(0, 0, 0, 0.5)', display: 'flex', alignItems: 'center',
-            justifyContent: 'center', zIndex: 1000
-          }}
-          onClick={() => setSelectedDoc(null)}
-        >
-          <div 
-            style={{
-              background: '#fff', width: '80%', maxWidth: '700px', borderRadius: '8px',
-              overflow: 'hidden', display: 'flex', flexDirection: 'column', maxHeight: '90vh'
-            }}
-            onClick={(e) => e.stopPropagation()}
-          >
-            {/* Modal Header */}
-            <div style={{ padding: '16px', display: 'flex', justifyContent: 'space-between', borderBottom: '1px solid #e5e7eb' }}>
-              <h3 style={{ margin: 0 }}>Preview: {selectedDoc.name}</h3>
-              <button 
-                onClick={() => setSelectedDoc(null)}
-                style={{ background: 'none', border: 'none', fontSize: '1.2rem', cursor: 'pointer' }}
-              >
-                ✕
-              </button>
-            </div>
+.preview-image {
+  max-width: 100%;
+  max-height: 500px;
+  object-fit: contain;
+}
 
-            {/* Modal Content */}
-            <div style={{ padding: '20px', overflowY: 'auto', display: 'flex', justifyContent: 'center' }}>
-              {renderPreviewContent(selectedDoc)}
-            </div>
+.btn-doc-preview {
+  background: #f3f4f6;
+  border: 1px solid #d1d5db;
+  padding: 6px 12px;
+  border-radius: 4px;
+  cursor: pointer;
+  margin-right: 5px;
+}
 
-            {/* Modal Footer */}
-            <div style={{ padding: '16px', display: 'flex', justifyContent: 'flex-end', gap: '10px', borderTop: '1px solid #e5e7eb' }}>
-              <a 
-                href={selectedDoc.url} 
-                download={selectedDoc.name}
-                style={{
-                  padding: '8px 16px', background: '#4F46E5', color: '#fff', 
-                  borderRadius: '4px', textDecoration: 'none', fontSize: '0.9rem'
-                }}
-              >
-                Download File
-              </a>
-              <button 
-                onClick={() => setSelectedDoc(null)}
-                style={{
-                  padding: '8px 16px', background: '#f3f4f6', border: '1px solid #d1d5db', 
-                  borderRadius: '4px', cursor: 'pointer'
-                }}
-              >
-                Close
-              </button>
-            </div>
-          </div>
-        </div>
-      )}
-    </div>
-  );
-};
-
-// ==========================================
-// 3. MAIN APP (ROOT COMPONENT)
-// ==========================================
-export default function App() {
-  const [activeTab, setActiveTab] = useState('dashboard');
-
-  // Sample data with documents attached
-  const [employees] = useState([
-    {
-      id: 1,
-      name: 'Sarah Jenkins',
-      role: 'HR Manager',
-      documents: [
-        { 
-          name: 'Employment_Contract.pdf', 
-          url: 'https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf', 
-          type: 'application/pdf' 
-        },
-        { 
-          name: 'ID_Photo.jpg', 
-          url: 'https://via.placeholder.com/300', 
-          type: 'image/jpeg' 
-        }
-      ]
-    },
-    {
-      id: 2,
-      name: 'Michael Chen',
-      role: 'Software Engineer',
-      documents: [
-        { 
-          name: 'Resume.pdf', 
-          url: 'https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf', 
-          type: 'application/pdf' 
-        }
-      ]
-    }
-  ]);
-
-  return (
-    <div style={{ fontFamily: 'sans-serif', padding: '20px', maxWidth: '1000px', margin: '0 auto' }}>
-      {/* Top Navigation Bar */}
-      <nav style={{ display: 'flex', gap: '10px', borderBottom: '2px solid #e5e7eb', paddingBottom: '10px' }}>
-        <button 
-          onClick={() => setActiveTab('dashboard')}
-          style={{
-            padding: '8px 16px', border: 'none', background: activeTab === 'dashboard' ? '#4F46E5' : '#f3f4f6',
-            color: activeTab === 'dashboard' ? '#fff' : '#000', borderRadius: '4px', cursor: 'pointer'
-          }}
-        >
-          Dashboard
-        </button>
-        <button 
-          onClick={() => setActiveTab('employees')}
-          style={{
-            padding: '8px 16px', border: 'none', background: activeTab === 'employees' ? '#4F46E5' : '#f3f4f6',
-            color: activeTab === 'employees' ? '#fff' : '#000', borderRadius: '4px', cursor: 'pointer'
-          }}
-        >
-          Employee Directory
-        </button>
-      </nav>
-
-      {/* Main View Area */}
-      <main style={{ marginTop: '20px' }}>
-        {activeTab === 'dashboard' && (
-          <Dashboard 
-            setActiveTab={setActiveTab} 
-            metrics={{ totalEmployees: employees.length, pendingDocs: 3 }} 
-          />
-        )}
-        {activeTab === 'employees' && (
-          <EmployeeDirectory employees={employees} />
-        )}
-      </main>
-    </div>
-  );
+.btn-doc-preview:hover {
+  background: #e5e7eb;
 }
