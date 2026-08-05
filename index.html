@@ -89,6 +89,9 @@
         <button onclick="switchTab('leave')" id="nav-leave" class="nav-btn w-full flex items-center gap-3 px-3 py-2.5 rounded-xl hover:bg-emerald-900/50 hover:text-white transition-all duration-200">
           <i data-lucide="calendar" class="w-4 h-4"></i> Time & Leave
         </button>
+        <button onclick="switchTab('timeclock')" id="nav-timeclock" class="nav-btn w-full flex items-center gap-3 px-3 py-2.5 rounded-xl hover:bg-emerald-900/50 hover:text-white transition-all duration-200">
+          <i data-lucide="clock" class="w-4 h-4"></i> Time Clock
+        </button>
         <button onclick="switchTab('payroll')" id="nav-payroll" class="nav-btn w-full flex items-center gap-3 px-3 py-2.5 rounded-xl hover:bg-emerald-900/50 hover:text-white transition-all duration-200">
           <i data-lucide="wallet" class="w-4 h-4"></i> Payroll & Comp
         </button>
@@ -152,7 +155,7 @@
           <p class="text-sm text-slate-500">Real-time overview of personnel statistics and HR workflows.</p>
         </div>
 
-        <div class="grid grid-cols-1 md:grid-cols-4 gap-5">
+        <div class="grid grid-cols-1 md:grid-cols-5 gap-5">
           <!-- CARD 1: WORKFORCE -->
           <div onclick="switchTab('directory')" class="bg-white p-5 rounded-2xl border border-emerald-100 shadow-sm hover:shadow-md hover:border-emerald-300 transition cursor-pointer flex items-center justify-between group">
             <div>
@@ -183,7 +186,17 @@
             <div class="p-3 bg-emerald-50 text-emerald-600 rounded-xl group-hover:scale-105 transition"><i data-lucide="calendar" class="w-6 h-6"></i></div>
           </div>
 
-          <!-- CARD 4: PAYROLL -->
+          <!-- CARD 4: TIME CLOCK -->
+          <div onclick="switchTab('timeclock')" class="bg-white p-5 rounded-2xl border border-emerald-100 shadow-sm hover:shadow-md hover:border-emerald-300 transition cursor-pointer flex items-center justify-between group">
+            <div>
+              <p class="text-xs font-medium text-slate-500">Clocked In Today</p>
+              <h3 class="text-2xl font-bold text-slate-900 mt-1" id="dash-clockedin-count">0 Clocked In</h3>
+              <p class="text-xs text-emerald-600 mt-1 font-medium group-hover:underline flex items-center gap-1">Open Time Clock <i data-lucide="arrow-right" class="w-3 h-3"></i></p>
+            </div>
+            <div class="p-3 bg-teal-50 text-teal-600 rounded-xl group-hover:scale-105 transition"><i data-lucide="clock" class="w-6 h-6"></i></div>
+          </div>
+
+          <!-- CARD 5: PAYROLL -->
           <div onclick="switchTab('payroll')" class="bg-white p-5 rounded-2xl border border-emerald-100 shadow-sm hover:shadow-md hover:border-emerald-300 transition cursor-pointer flex items-center justify-between group">
             <div>
               <p class="text-xs font-medium text-slate-500">Monthly Payroll Estimate</p>
@@ -277,6 +290,55 @@
                 <button onclick="alert('Leave Request Rejected')" class="px-3 py-1 bg-slate-200 text-slate-700 rounded-lg text-xs font-semibold">Reject</button>
               </div>
             </div>
+          </div>
+        </div>
+
+        <div class="bg-white rounded-2xl border border-slate-200 shadow-sm p-6">
+          <h2 class="text-base font-bold text-slate-900 mb-4">Attendance Log</h2>
+          <div class="overflow-x-auto max-h-[400px]">
+            <table class="w-full text-left text-xs whitespace-nowrap">
+              <thead class="bg-slate-50 text-slate-500 border-b border-slate-200 uppercase font-semibold sticky top-0 bg-slate-50 z-10">
+                <tr>
+                  <th class="py-3 px-4">Employee</th>
+                  <th class="py-3 px-4">Date</th>
+                  <th class="py-3 px-4">Time In</th>
+                  <th class="py-3 px-4">Time Out</th>
+                  <th class="py-3 px-4">Hours Worked</th>
+                </tr>
+              </thead>
+              <tbody id="attendance-log-body" class="divide-y divide-slate-100">
+                <!-- Javascript populates attendance rows -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <!-- 3B. TIME CLOCK TAB -->
+      <section id="tab-timeclock" class="tab-content space-y-6">
+        <div>
+          <h1 class="text-2xl font-bold text-slate-900">Employee Time Clock</h1>
+          <p class="text-sm text-slate-500">Select an employee, then Clock In or Clock Out. Entries are recorded automatically to the Attendance Log under Time & Leave.</p>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+          <!-- Kiosk Panel -->
+          <div class="md:col-span-1 bg-white p-6 rounded-2xl border border-slate-200 shadow-sm space-y-4 h-fit">
+            <div>
+              <label class="block text-xs font-semibold text-slate-700 mb-1">Select Employee</label>
+              <select id="clock-emp-select" onchange="updateClockStatusDisplay()" class="w-full px-3 py-2 border rounded-xl text-sm focus:ring-2 focus:ring-emerald-500 outline-none"></select>
+            </div>
+            <div class="text-center py-3 bg-slate-50 rounded-xl border border-slate-200">
+              <p class="text-xs text-slate-500 mb-1">Current Status</p>
+              <p id="clock-status-display" class="text-sm"><span class="text-slate-500 font-semibold">Not Clocked In</span></p>
+            </div>
+            <button id="clock-action-btn" onclick="handleClockToggle()" class="px-6 py-3 bg-emerald-600 hover:bg-emerald-700 text-white rounded-xl text-sm font-bold shadow-md transition w-full">Clock In</button>
+          </div>
+
+          <!-- Today's Activity -->
+          <div class="md:col-span-2 bg-white p-6 rounded-2xl border border-slate-200 shadow-sm">
+            <h3 class="text-base font-bold text-slate-900 mb-4">Today's Activity</h3>
+            <div id="timeclock-today-list" class="space-y-2 max-h-[calc(100vh-380px)] overflow-y-auto"></div>
           </div>
         </div>
       </section>
@@ -732,12 +794,19 @@
       { id: 104, fullname: "Nick Joaquin", position: "Content Strategist", stage: "offered", email: "nick.j@writer.ph", phone: "+63 920 444 5555", fileName: null, fileData: null, fileType: null }
     ];
 
+    // Attendance / Time Clock Records
+    let attendanceLogs = []; // { id, empId, empName, date, timeIn, timeOut }
+
     // Initialize App
     document.addEventListener("DOMContentLoaded", () => {
       lucide.createIcons();
       renderEmployeeTable();
       renderATSBoard();
       runPayrollSimulation();
+      populateClockEmployeeSelect();
+      renderAttendanceLog();
+      renderTimeClockTodayList();
+      updateDashboardClockCount();
     });
 
     // Dynamic Tab Switcher
@@ -800,6 +869,7 @@
       });
 
       document.getElementById('dash-emp-count').innerText = `${employees.length} Active`;
+      populateClockEmployeeSelect();
       lucide.createIcons();
     }
 
@@ -1193,6 +1263,144 @@
 
       document.getElementById('payroll-gross-display').innerText = `₱${totalGross.toLocaleString('en-US', {minimumFractionDigits: 2})}`;
       document.getElementById('dash-payroll-est').innerText = `₱${totalGross.toLocaleString('en-US', {minimumFractionDigits: 2})}`;
+    }
+
+    // ===== EMPLOYEE TIME CLOCK (Clock In / Clock Out) =====
+
+    function getTodayStr() {
+      return new Date().toISOString().split('T')[0];
+    }
+
+    function formatTime(ts) {
+      return new Date(ts).toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' });
+    }
+
+    function getOpenLogForEmployee(empId) {
+      const today = getTodayStr();
+      return attendanceLogs.find(log => log.empId === empId && log.date === today && !log.timeOut);
+    }
+
+    // Fills the employee dropdown on the Time Clock tab from the live `employees` array
+    function populateClockEmployeeSelect() {
+      const select = document.getElementById('clock-emp-select');
+      if (!select) return;
+      const currentVal = select.value;
+      select.innerHTML = employees.map(emp => `<option value="${emp.id}">${emp.fullname}</option>`).join('');
+      if (currentVal && employees.some(e => String(e.id) === currentVal)) {
+        select.value = currentVal;
+      }
+      updateClockStatusDisplay();
+    }
+
+    // Updates the status text + toggles the Clock In / Clock Out button
+    function updateClockStatusDisplay() {
+      const select = document.getElementById('clock-emp-select');
+      const statusEl = document.getElementById('clock-status-display');
+      const btn = document.getElementById('clock-action-btn');
+      if (!select || !statusEl || !btn || !select.value) return;
+
+      const empId = parseInt(select.value);
+      const openLog = getOpenLogForEmployee(empId);
+
+      if (openLog) {
+        statusEl.innerHTML = `<span class="text-emerald-600 font-semibold">Clocked In</span> since ${formatTime(openLog.timeIn)}`;
+        btn.innerText = 'Clock Out';
+        btn.className = 'px-6 py-3 bg-rose-600 hover:bg-rose-700 text-white rounded-xl text-sm font-bold shadow-md transition w-full';
+      } else {
+        statusEl.innerHTML = `<span class="text-slate-500 font-semibold">Not Clocked In</span>`;
+        btn.innerText = 'Clock In';
+        btn.className = 'px-6 py-3 bg-emerald-600 hover:bg-emerald-700 text-white rounded-xl text-sm font-bold shadow-md transition w-full';
+      }
+    }
+
+    // Main handler wired to the Clock In / Clock Out button
+    function handleClockToggle() {
+      const select = document.getElementById('clock-emp-select');
+      if (!select || !select.value) return;
+      const empId = parseInt(select.value);
+      const emp = employees.find(e => e.id === empId);
+      if (!emp) return;
+
+      const openLog = getOpenLogForEmployee(empId);
+      const now = Date.now();
+
+      if (openLog) {
+        openLog.timeOut = now;
+      } else {
+        attendanceLogs.unshift({
+          id: Date.now(),
+          empId: emp.id,
+          empName: emp.fullname,
+          date: getTodayStr(),
+          timeIn: now,
+          timeOut: null
+        });
+      }
+
+      renderAttendanceLog();
+      renderTimeClockTodayList();
+      updateClockStatusDisplay();
+      updateDashboardClockCount();
+    }
+
+    function computeHoursWorked(timeIn, timeOut) {
+      if (!timeOut) return '-';
+      const hrs = (timeOut - timeIn) / (1000 * 60 * 60);
+      return hrs.toFixed(2) + ' hrs';
+    }
+
+    // Renders the "Today's Activity" feed on the Time Clock tab
+    function renderTimeClockTodayList() {
+      const container = document.getElementById('timeclock-today-list');
+      if (!container) return;
+      const today = getTodayStr();
+      const todayLogs = attendanceLogs.filter(l => l.date === today);
+
+      if (todayLogs.length === 0) {
+        container.innerHTML = `<p class="text-xs text-slate-400 italic text-center py-4">No clock-ins recorded yet today.</p>`;
+        return;
+      }
+
+      container.innerHTML = todayLogs.map(log => `
+        <div class="flex items-center justify-between p-3 bg-slate-50 rounded-xl border border-slate-200">
+          <div>
+            <p class="text-sm font-semibold text-slate-800">${log.empName}</p>
+            <p class="text-xs text-slate-500">In: ${formatTime(log.timeIn)}${log.timeOut ? ' • Out: ' + formatTime(log.timeOut) : ''}</p>
+          </div>
+          <span class="text-xs font-bold px-2.5 py-1 rounded-full ${log.timeOut ? 'bg-slate-200 text-slate-600' : 'bg-emerald-50 text-emerald-700 border border-emerald-200'}">
+            ${log.timeOut ? 'Clocked Out' : 'Clocked In'}
+          </span>
+        </div>
+      `).join('');
+    }
+
+    // Renders the full historical Attendance Log table under Time & Leave
+    function renderAttendanceLog() {
+      const tbody = document.getElementById('attendance-log-body');
+      if (!tbody) return;
+
+      if (attendanceLogs.length === 0) {
+        tbody.innerHTML = `<tr><td colspan="5" class="text-center py-6 text-slate-400">No attendance records yet. Clock in from the Time Clock tab to get started.</td></tr>`;
+        return;
+      }
+
+      tbody.innerHTML = attendanceLogs.map(log => `
+        <tr class="hover:bg-slate-50 transition">
+          <td class="py-3 px-4 font-semibold text-slate-800">${log.empName}</td>
+          <td class="py-3 px-4 text-slate-600">${log.date}</td>
+          <td class="py-3 px-4 font-mono text-slate-600">${formatTime(log.timeIn)}</td>
+          <td class="py-3 px-4 font-mono text-slate-600">${log.timeOut ? formatTime(log.timeOut) : '-'}</td>
+          <td class="py-3 px-4 font-mono font-bold text-emerald-700">${computeHoursWorked(log.timeIn, log.timeOut)}</td>
+        </tr>
+      `).join('');
+    }
+
+    // Updates the "Clocked In Today" dashboard stat card
+    function updateDashboardClockCount() {
+      const today = getTodayStr();
+      const clockedInCount = attendanceLogs.filter(l => l.date === today && !l.timeOut).length;
+      const el = document.getElementById('dash-clockedin-count');
+      if (el) el.innerText = `${clockedInCount} Clocked In`;
     }
   </script>
 </body>
