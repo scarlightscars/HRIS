@@ -46,32 +46,14 @@
     .tab-content { display: none; }
     .tab-content.active { display: block; }
     
-    ::-webkit-scrollbar {
-      width: 6px;
-      height: 6px;
-    }
-    ::-webkit-scrollbar-track {
-      background: #f1f5f9;
-    }
-    ::-webkit-scrollbar-thumb {
-      background: #10b981;
-      border-radius: 4px;
-    }
-    ::-webkit-scrollbar-thumb:hover {
-      background: #059669;
-    }
+    ::-webkit-scrollbar { width: 6px; height: 6px; }
+    ::-webkit-scrollbar-track { background: #f1f5f9; }
+    ::-webkit-scrollbar-thumb { background: #10b981; border-radius: 4px; }
+    ::-webkit-scrollbar-thumb:hover { background: #059669; }
     
-    .ats-card {
-      cursor: grab;
-    }
-    .ats-card:active {
-      cursor: grabbing;
-    }
-    .drag-over {
-      background-color: #ecfdf5 !important;
-      border-color: #10b981 !important;
-      border-style: dashed !important;
-    }
+    .ats-card { cursor: grab; }
+    .ats-card:active { cursor: grabbing; }
+    .drag-over { background-color: #ecfdf5 !important; border-color: #10b981 !important; border-style: dashed !important; }
   </style>
 </head>
 <body class="bg-slate-50 font-sans text-slate-800 antialiased flex h-screen overflow-hidden">
@@ -165,27 +147,24 @@
         </div>
 
         <div class="grid grid-cols-1 md:grid-cols-4 gap-5">
-          <!-- CARD 1: WORKFORCE -->
           <div onclick="switchTab('directory')" class="bg-white p-5 rounded-2xl border border-emerald-100 shadow-sm hover:shadow-md hover:border-emerald-300 transition cursor-pointer flex items-center justify-between group">
             <div>
               <p class="text-xs font-medium text-slate-500">Total Workforce</p>
-              <h3 class="text-2xl font-bold text-slate-900 mt-1" id="dash-emp-count">32 Active</h3>
+              <h3 class="text-2xl font-bold text-slate-900 mt-1" id="dash-emp-count">5 Active</h3>
               <p class="text-xs text-emerald-600 mt-1 font-medium group-hover:underline flex items-center gap-1">View Directory <i data-lucide="arrow-right" class="w-3 h-3"></i></p>
             </div>
             <div class="p-3 bg-emerald-50 text-emerald-600 rounded-xl group-hover:scale-105 transition"><i data-lucide="users" class="w-6 h-6"></i></div>
           </div>
 
-          <!-- CARD 2: RECRUITMENT -->
           <div onclick="switchTab('recruitment')" class="bg-white p-5 rounded-2xl border border-emerald-100 shadow-sm hover:shadow-md hover:border-emerald-300 transition cursor-pointer flex items-center justify-between group">
             <div>
               <p class="text-xs font-medium text-slate-500">Active ATS Applicants</p>
-              <h3 class="text-2xl font-bold text-slate-900 mt-1" id="dash-ats-count">4 Candidates</h3>
+              <h3 class="text-2xl font-bold text-slate-900 mt-1" id="dash-ats-count">3 Candidates</h3>
               <p class="text-xs text-emerald-600 mt-1 font-medium group-hover:underline flex items-center gap-1">Open ATS <i data-lucide="arrow-right" class="w-3 h-3"></i></p>
             </div>
             <div class="p-3 bg-teal-50 text-teal-600 rounded-xl group-hover:scale-105 transition"><i data-lucide="briefcase" class="w-6 h-6"></i></div>
           </div>
 
-          <!-- CARD 3: TIME & LEAVE -->
           <div onclick="switchTab('leave')" class="bg-white p-5 rounded-2xl border border-emerald-100 shadow-sm hover:shadow-md hover:border-emerald-300 transition cursor-pointer flex items-center justify-between group">
             <div>
               <p class="text-xs font-medium text-slate-500">Pending Leave Requests</p>
@@ -195,11 +174,10 @@
             <div class="p-3 bg-emerald-50 text-emerald-600 rounded-xl group-hover:scale-105 transition"><i data-lucide="calendar" class="w-6 h-6"></i></div>
           </div>
 
-          <!-- CARD 4: PAYROLL -->
           <div onclick="switchTab('payroll')" class="bg-white p-5 rounded-2xl border border-emerald-100 shadow-sm hover:shadow-md hover:border-emerald-300 transition cursor-pointer flex items-center justify-between group">
             <div>
               <p class="text-xs font-medium text-slate-500">Monthly Payroll Estimate</p>
-              <h3 class="text-2xl font-bold text-slate-900 mt-1" id="dash-payroll-est">₱1,450,000.00</h3>
+              <h3 class="text-2xl font-bold text-slate-900 mt-1" id="dash-payroll-est">₱225,000.00</h3>
               <p class="text-xs text-emerald-600 mt-1 font-medium group-hover:underline flex items-center gap-1">Run Breakdown <i data-lucide="arrow-right" class="w-3 h-3"></i></p>
             </div>
             <div class="p-3 bg-teal-50 text-teal-600 rounded-xl group-hover:scale-105 transition"><i data-lucide="banknote" class="w-6 h-6"></i></div>
@@ -220,11 +198,8 @@
         <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
           <div>
             <h1 class="text-2xl font-bold text-slate-900">Employee Directory</h1>
-            <p class="text-sm text-slate-500">Click on an employee's name to edit or attach documents. Click the badge in the Attached File column to preview documents.</p>
+            <p class="text-sm text-slate-500">Manage workforce profiles and statutory contributions.</p>
           </div>
-          <button onclick="openAddEmployeeModal()" class="px-4 py-2 bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-700 hover:to-teal-700 text-white rounded-xl text-sm font-semibold flex items-center gap-2 shadow-md transition">
-            <i data-lucide="user-plus" class="w-4 h-4"></i> Add New Record
-          </button>
         </div>
 
         <div class="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden">
@@ -240,13 +215,9 @@
                   <th class="py-4 px-4">Pag-IBIG MID</th>
                   <th class="py-4 px-4">PhilHealth ID</th>
                   <th class="py-4 px-4">BIR TIN</th>
-                  <th class="py-4 px-4">Attached File</th>
-                  <th class="py-4 px-4 text-center">Actions</th>
                 </tr>
               </thead>
-              <tbody id="employee-table-body" class="divide-y divide-slate-100">
-                <!-- JavaScript populates 32 employees -->
-              </tbody>
+              <tbody id="employee-table-body" class="divide-y divide-slate-100"></tbody>
             </table>
           </div>
         </div>
@@ -254,30 +225,13 @@
 
       <!-- 3. TIME & LEAVE TAB -->
       <section id="tab-leave" class="tab-content space-y-6">
-        <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
-          <div>
-            <h1 class="text-2xl font-bold text-slate-900">Time & Leave Management</h1>
-            <p class="text-sm text-slate-500">Track PTO requests, approve applications, and review staff balances.</p>
-          </div>
-        </div>
-
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-5">
-          <div class="bg-white p-5 rounded-2xl border border-slate-200">
-            <p class="text-xs text-slate-500">Total Vacation Days Accrued</p>
-            <h3 class="text-xl font-bold text-slate-900 mt-1">15.0 Days / Emp</h3>
-          </div>
-          <div class="bg-white p-5 rounded-2xl border border-slate-200">
-            <p class="text-xs text-slate-500">Sick Leave Balance</p>
-            <h3 class="text-xl font-bold text-slate-900 mt-1">10.0 Days / Emp</h3>
-          </div>
-          <div class="bg-white p-5 rounded-2xl border border-slate-200">
-            <p class="text-xs text-slate-500">Emergency & Remote Allowance</p>
-            <h3 class="text-xl font-bold text-slate-900 mt-1">7.0 Days</h3>
-          </div>
+        <div>
+          <h1 class="text-2xl font-bold text-slate-900">Time & Leave Management</h1>
+          <p class="text-sm text-slate-500">Track PTO requests, approve applications, and review staff balances.</p>
         </div>
 
         <div class="bg-white rounded-2xl border border-slate-200 shadow-sm p-6">
-          <h2 class="text-base font-bold text-slate-900 mb-4">Pending Leave Approval Requests</h2>
+          <h2 class="text-base font-bold text-slate-900 mb-4">Pending Leave Requests</h2>
           <div id="leave-requests-container" class="space-y-3">
             <div class="p-4 bg-slate-50 rounded-xl border border-slate-200 flex justify-between items-center">
               <div>
@@ -298,18 +252,17 @@
         <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
           <div>
             <h1 class="text-2xl font-bold text-slate-900">Payroll & Mandatory Contributions</h1>
-            <p class="text-sm text-slate-500">Itemized calculation of SSS, Pag-IBIG, PhilHealth, and Withholding Tax.</p>
+            <p class="text-sm text-slate-500">Itemized calculation of statutory deductions.</p>
           </div>
-          <button onclick="runPayrollSimulation()" class="px-4 py-2 bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-700 hover:to-teal-700 text-white rounded-xl text-sm font-semibold flex items-center gap-2 shadow-md transition">
+          <button onclick="runPayrollSimulation()" class="px-4 py-2 bg-gradient-to-r from-emerald-600 to-teal-600 text-white rounded-xl text-sm font-semibold flex items-center gap-2 shadow-md hover:from-emerald-700 hover:to-teal-700 transition">
             <i data-lucide="calculator" class="w-4 h-4"></i> Run Payroll Simulation
           </button>
         </div>
 
-        <div id="payroll-summary-card" class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm flex items-center justify-between">
+        <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm flex items-center justify-between">
           <div>
             <span class="text-xs font-semibold px-2.5 py-1 rounded-full bg-emerald-50 text-emerald-700 border border-emerald-200">Semi-Monthly Processing</span>
-            <h3 class="text-lg font-bold text-slate-900 mt-2">August Semi-Monthly Cutoff</h3>
-            <p class="text-xs text-slate-500 mt-1">Status: Click 'Run Payroll Simulation' to recalculate payroll breakdowns across all registered employees.</p>
+            <h3 class="text-lg font-bold text-slate-900 mt-2">Current Pay Period Cutoff</h3>
           </div>
           <div class="text-right">
             <p class="text-xs text-slate-500">Estimated Total Gross Pay</p>
@@ -318,26 +271,19 @@
         </div>
 
         <div class="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden">
-          <div class="p-4 border-b border-slate-100 flex items-center justify-between">
-            <h3 class="font-bold text-sm text-slate-800">Employee Payroll Breakdown</h3>
-            <span class="text-xs text-slate-400">Values calculated based on registered Directory data</span>
-          </div>
           <div class="overflow-x-auto max-h-[calc(100vh-320px)]">
             <table class="w-full text-left text-xs whitespace-nowrap">
-              <thead class="bg-slate-50 text-slate-500 border-b border-slate-200 uppercase font-semibold sticky top-0 bg-slate-50 z-10">
+              <thead class="bg-slate-50 text-slate-500 border-b border-slate-200 uppercase font-semibold sticky top-0 z-10">
                 <tr>
                   <th class="py-3 px-4">Employee</th>
                   <th class="py-3 px-4">Gross Basic Pay</th>
                   <th class="py-3 px-4">SSS (4.5%)</th>
                   <th class="py-3 px-4">Pag-IBIG (2%)</th>
                   <th class="py-3 px-4">PhilHealth (2.5%)</th>
-                  <th class="py-3 px-4">Withholding Tax</th>
                   <th class="py-3 px-4 font-bold text-emerald-700">Net Pay</th>
                 </tr>
               </thead>
-              <tbody id="payroll-table-body" class="divide-y divide-slate-100">
-                <!-- Javascript populates payroll rows -->
-              </tbody>
+              <tbody id="payroll-table-body" class="divide-y divide-slate-100"></tbody>
             </table>
           </div>
         </div>
@@ -348,49 +294,26 @@
         <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
           <div>
             <h1 class="text-2xl font-bold text-slate-900">Applicant Tracking System (ATS)</h1>
-            <p class="text-sm text-slate-500">Drag candidate cards across stages, or click a candidate card to view details & attach resumes.</p>
+            <p class="text-sm text-slate-500">Pipeline stages for current open requisitions.</p>
           </div>
-          <button onclick="openAddCandidateModal()" class="px-4 py-2 bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-700 hover:to-teal-700 text-white rounded-xl text-sm font-semibold flex items-center gap-2 shadow-md transition">
-            <i data-lucide="user-plus" class="w-4 h-4"></i> Add Candidate
-          </button>
         </div>
 
-        <!-- ATS PIPELINE COLUMNS (DRAG AND DROP ENABLED) -->
         <div class="grid grid-cols-1 md:grid-cols-4 gap-5">
-          <!-- APPLIED -->
-          <div ondragover="handleDragOver(event)" ondragleave="handleDragLeave(event)" ondrop="handleDrop(event, 'applied')" class="ats-col bg-slate-100/80 p-4 rounded-2xl border border-slate-200 flex flex-col h-[calc(100vh-220px)] transition-all">
-            <div class="flex items-center justify-between mb-3 pb-2 border-b border-slate-200 pointer-events-none">
-              <span class="text-xs font-bold text-slate-700 uppercase tracking-wider flex items-center gap-2"><span class="w-2 h-2 rounded-full bg-blue-500"></span> Applied</span>
-              <span id="count-applied" class="px-2 py-0.5 text-xs font-bold bg-slate-200 text-slate-700 rounded-full">0</span>
-            </div>
-            <div id="col-applied" class="space-y-3 overflow-y-auto flex-1 pr-1"></div>
+          <div class="bg-slate-100/80 p-4 rounded-2xl border border-slate-200 flex flex-col h-[calc(100vh-220px)]">
+            <span class="text-xs font-bold text-slate-700 uppercase mb-3 flex items-center gap-2"><span class="w-2 h-2 rounded-full bg-blue-500"></span> Applied</span>
+            <div id="col-applied" class="space-y-3 overflow-y-auto flex-1"></div>
           </div>
-
-          <!-- INTERVIEWING -->
-          <div ondragover="handleDragOver(event)" ondragleave="handleDragLeave(event)" ondrop="handleDrop(event, 'interviewing')" class="ats-col bg-slate-100/80 p-4 rounded-2xl border border-slate-200 flex flex-col h-[calc(100vh-220px)] transition-all">
-            <div class="flex items-center justify-between mb-3 pb-2 border-b border-slate-200 pointer-events-none">
-              <span class="text-xs font-bold text-slate-700 uppercase tracking-wider flex items-center gap-2"><span class="w-2 h-2 rounded-full bg-amber-500"></span> Interviewing</span>
-              <span id="count-interviewing" class="px-2 py-0.5 text-xs font-bold bg-slate-200 text-slate-700 rounded-full">0</span>
-            </div>
-            <div id="col-interviewing" class="space-y-3 overflow-y-auto flex-1 pr-1"></div>
+          <div class="bg-slate-100/80 p-4 rounded-2xl border border-slate-200 flex flex-col h-[calc(100vh-220px)]">
+            <span class="text-xs font-bold text-slate-700 uppercase mb-3 flex items-center gap-2"><span class="w-2 h-2 rounded-full bg-amber-500"></span> Interviewing</span>
+            <div id="col-interviewing" class="space-y-3 overflow-y-auto flex-1"></div>
           </div>
-
-          <!-- OFFERED -->
-          <div ondragover="handleDragOver(event)" ondragleave="handleDragLeave(event)" ondrop="handleDrop(event, 'offered')" class="ats-col bg-slate-100/80 p-4 rounded-2xl border border-slate-200 flex flex-col h-[calc(100vh-220px)] transition-all">
-            <div class="flex items-center justify-between mb-3 pb-2 border-b border-slate-200 pointer-events-none">
-              <span class="text-xs font-bold text-slate-700 uppercase tracking-wider flex items-center gap-2"><span class="w-2 h-2 rounded-full bg-purple-500"></span> Offered</span>
-              <span id="count-offered" class="px-2 py-0.5 text-xs font-bold bg-slate-200 text-slate-700 rounded-full">0</span>
-            </div>
-            <div id="col-offered" class="space-y-3 overflow-y-auto flex-1 pr-1"></div>
+          <div class="bg-slate-100/80 p-4 rounded-2xl border border-slate-200 flex flex-col h-[calc(100vh-220px)]">
+            <span class="text-xs font-bold text-slate-700 uppercase mb-3 flex items-center gap-2"><span class="w-2 h-2 rounded-full bg-purple-500"></span> Offered</span>
+            <div id="col-offered" class="space-y-3 overflow-y-auto flex-1"></div>
           </div>
-
-          <!-- HIRED -->
-          <div ondragover="handleDragOver(event)" ondragleave="handleDragLeave(event)" ondrop="handleDrop(event, 'hired')" class="ats-col bg-slate-100/80 p-4 rounded-2xl border border-slate-200 flex flex-col h-[calc(100vh-220px)] transition-all">
-            <div class="flex items-center justify-between mb-3 pb-2 border-b border-slate-200 pointer-events-none">
-              <span class="text-xs font-bold text-slate-700 uppercase tracking-wider flex items-center gap-2"><span class="w-2 h-2 rounded-full bg-emerald-500"></span> Hired</span>
-              <span id="count-hired" class="px-2 py-0.5 text-xs font-bold bg-slate-200 text-slate-700 rounded-full">0</span>
-            </div>
-            <div id="col-hired" class="space-y-3 overflow-y-auto flex-1 pr-1"></div>
+          <div class="bg-slate-100/80 p-4 rounded-2xl border border-slate-200 flex flex-col h-[calc(100vh-220px)]">
+            <span class="text-xs font-bold text-slate-700 uppercase mb-3 flex items-center gap-2"><span class="w-2 h-2 rounded-full bg-emerald-500"></span> Hired</span>
+            <div id="col-hired" class="space-y-3 overflow-y-auto flex-1"></div>
           </div>
         </div>
       </section>
@@ -399,20 +322,17 @@
       <section id="tab-documents" class="tab-content space-y-6">
         <div>
           <h1 class="text-2xl font-bold text-slate-900">Document Repository</h1>
-          <p class="text-sm text-slate-500">Centralized storage for company handbooks, contracts, and compliance records.</p>
+          <p class="text-sm text-slate-500">Centralized storage for company handbooks and compliance records.</p>
         </div>
-
-        <div id="documents-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-          <div class="bg-white p-4 rounded-2xl border border-slate-200 shadow-sm flex items-center justify-between">
-            <div class="flex items-center gap-3">
-              <div class="p-2.5 bg-emerald-50 text-emerald-600 rounded-xl"><i data-lucide="file-text" class="w-5 h-5"></i></div>
-              <div>
-                <p class="font-bold text-sm text-slate-800">2026 Employee Handbook.pdf</p>
-                <p class="text-xs text-slate-400">2.4 MB • Public</p>
-              </div>
+        <div class="bg-white p-4 rounded-2xl border border-slate-200 shadow-sm max-w-md flex items-center justify-between">
+          <div class="flex items-center gap-3">
+            <div class="p-2.5 bg-emerald-50 text-emerald-600 rounded-xl"><i data-lucide="file-text" class="w-5 h-5"></i></div>
+            <div>
+              <p class="font-bold text-sm text-slate-800">2026 Employee Handbook.pdf</p>
+              <p class="text-xs text-slate-400">2.4 MB • Active</p>
             </div>
-            <button onclick="alert('Opening Document Preview...')" class="text-emerald-600 hover:text-emerald-800 text-xs font-semibold">Preview</button>
           </div>
+          <button onclick="alert('Opening Document...')" class="text-emerald-600 text-xs font-semibold">Preview</button>
         </div>
       </section>
 
@@ -420,821 +340,127 @@
       <section id="tab-settings" class="tab-content space-y-6">
         <div>
           <h1 class="text-2xl font-bold text-slate-900">System Settings</h1>
-          <p class="text-sm text-slate-500">Manage portal notifications, integrations, and compliance rules.</p>
+          <p class="text-sm text-slate-500">Manage portal notifications and statutory rules.</p>
         </div>
-
-        <div class="bg-white p-6 rounded-2xl border border-slate-200 max-w-2xl space-y-6">
-          <form onsubmit="event.preventDefault(); alert('Settings saved successfully!');" class="space-y-4">
-            <div class="flex items-center justify-between border-b border-slate-100 pb-4">
-              <div>
-                <p class="text-sm font-semibold text-slate-800">Email Notifications</p>
-                <p class="text-xs text-slate-500">Receive daily digest for leave requests & ATS updates</p>
-              </div>
-              <input type="checkbox" checked class="w-5 h-5 text-emerald-600 accent-emerald-600 rounded border-slate-300" />
-            </div>
-
-            <div class="flex items-center justify-between border-b border-slate-100 pb-4">
-              <div>
-                <p class="text-sm font-semibold text-slate-800">Automate PH Statutory Deductions</p>
-                <p class="text-xs text-slate-500">Auto-calculate SSS, Pag-IBIG, and PhilHealth contributions during payroll runs</p>
-              </div>
-              <input type="checkbox" checked class="w-5 h-5 text-emerald-600 accent-emerald-600 rounded border-slate-300" />
-            </div>
-
-            <div>
-              <label class="block text-xs font-semibold text-slate-700 mb-1">Company Legal Entity Name</label>
-              <input type="text" value="Scarlight Tech Philippines Inc." class="w-full px-3 py-2 border border-slate-200 rounded-xl text-sm focus:ring-2 focus:ring-emerald-500 outline-none" />
-            </div>
-
-            <div class="pt-2 flex justify-end">
-              <button type="submit" class="px-5 py-2.5 bg-emerald-600 hover:bg-emerald-700 text-white rounded-xl text-xs font-semibold shadow transition">Save Preferences</button>
-            </div>
-          </form>
+        <div class="bg-white p-6 rounded-2xl border border-slate-200 max-w-xl">
+          <p class="text-sm font-semibold text-slate-800">Company Legal Entity</p>
+          <input type="text" value="Scarlight Tech Philippines Inc." class="w-full mt-2 px-3 py-2 border rounded-xl text-sm" />
         </div>
       </section>
     </main>
   </div>
 
-  <!-- MODAL: ADD CANDIDATE (ATS) -->
-  <div id="modal-add-candidate" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
-    <div class="bg-white rounded-2xl shadow-2xl max-w-lg w-full overflow-hidden border border-slate-100">
-      <div class="px-6 py-4 bg-gradient-to-r from-emerald-800 to-teal-800 text-white flex items-center justify-between">
-        <h3 class="font-bold text-base flex items-center gap-2"><i data-lucide="user-plus" class="w-5 h-5"></i> Add ATS Candidate</h3>
-        <button onclick="closeAddCandidateModal()" class="text-emerald-200 hover:text-white"><i data-lucide="x" class="w-5 h-5"></i></button>
-      </div>
-      <form id="form-add-candidate" onsubmit="handleAddCandidate(event)" class="p-6 space-y-4">
-        <div>
-          <label class="block text-xs font-semibold text-slate-700 mb-1">Full Name *</label>
-          <input type="text" id="cand-fullname" required placeholder="e.g. Gabriel Silang" class="w-full px-3 py-2 border rounded-xl text-sm focus:ring-2 focus:ring-emerald-500 outline-none" />
-        </div>
-        <div class="grid grid-cols-2 gap-3">
-          <div>
-            <label class="block text-xs font-semibold text-slate-700 mb-1">Position Applied *</label>
-            <input type="text" id="cand-position" required placeholder="e.g. Sourcing Specialist" class="w-full px-3 py-2 border rounded-xl text-sm focus:ring-2 focus:ring-emerald-500 outline-none" />
-          </div>
-          <div>
-            <label class="block text-xs font-semibold text-slate-700 mb-1">Stage *</label>
-            <select id="cand-stage" class="w-full px-3 py-2 border rounded-xl text-sm focus:ring-2 focus:ring-emerald-500 outline-none">
-              <option value="applied">Applied</option>
-              <option value="interviewing">Interviewing</option>
-              <option value="offered">Offered</option>
-              <option value="hired">Hired</option>
-            </select>
-          </div>
-        </div>
-        <div class="grid grid-cols-2 gap-3">
-          <div>
-            <label class="block text-xs font-semibold text-slate-700 mb-1">Email Address *</label>
-            <input type="email" id="cand-email" required placeholder="gabriel@example.com" class="w-full px-3 py-2 border rounded-xl text-sm focus:ring-2 focus:ring-emerald-500 outline-none" />
-          </div>
-          <div>
-            <label class="block text-xs font-semibold text-slate-700 mb-1">Phone Number</label>
-            <input type="text" id="cand-phone" placeholder="+63 917 111 2222" class="w-full px-3 py-2 border rounded-xl text-sm focus:ring-2 focus:ring-emerald-500 outline-none" />
-          </div>
-        </div>
-        <div>
-          <label class="block text-xs font-semibold text-slate-700 mb-1">Attach Resume / Document (PDF, Image)</label>
-          <input type="file" id="cand-file" accept="image/*,application/pdf" class="w-full text-xs text-slate-500 file:mr-3 file:py-1.5 file:px-3 file:rounded-xl file:border-0 file:text-xs file:font-semibold file:bg-emerald-50 file:text-emerald-700 hover:file:bg-emerald-100 cursor-pointer" />
-        </div>
-        <div class="pt-4 flex justify-end gap-3 border-t border-slate-100">
-          <button type="button" onclick="closeAddCandidateModal()" class="px-4 py-2 text-xs font-semibold text-slate-600 hover:bg-slate-100 rounded-xl transition">Cancel</button>
-          <button type="submit" class="px-5 py-2 text-xs font-semibold bg-emerald-600 hover:bg-emerald-700 text-white rounded-xl shadow transition">Save Candidate</button>
-        </div>
-      </form>
-    </div>
-  </div>
-
-  <!-- MODAL: VIEW / EDIT CANDIDATE DETAILS (ATS) -->
-  <div id="modal-view-candidate" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
-    <div class="bg-white rounded-2xl shadow-2xl max-w-lg w-full overflow-hidden border border-slate-100">
-      <div class="px-6 py-4 bg-gradient-to-r from-emerald-800 to-teal-800 text-white flex items-center justify-between">
-        <h3 class="font-bold text-base flex items-center gap-2"><i data-lucide="user-check" class="w-5 h-5"></i> Candidate Profile</h3>
-        <button onclick="closeViewCandidateModal()" class="text-emerald-200 hover:text-white"><i data-lucide="x" class="w-5 h-5"></i></button>
-      </div>
-      <div class="p-6 space-y-4">
-        <input type="hidden" id="view-cand-id" />
-        <div>
-          <h2 class="text-xl font-bold text-slate-900" id="view-cand-name">Candidate Name</h2>
-          <p class="text-xs text-emerald-600 font-semibold mt-0.5" id="view-cand-position">Position</p>
-        </div>
-
-        <div class="grid grid-cols-2 gap-3 p-3 bg-slate-50 rounded-xl text-xs">
-          <div>
-            <p class="text-slate-400">Email</p>
-            <p class="font-semibold text-slate-800 truncate" id="view-cand-email">-</p>
-          </div>
-          <div>
-            <p class="text-slate-400">Phone</p>
-            <p class="font-semibold text-slate-800" id="view-cand-phone">-</p>
-          </div>
-        </div>
-
-        <div>
-          <label class="block text-xs font-semibold text-slate-700 mb-1">Change Recruitment Pipeline Stage</label>
-          <select id="view-cand-stage" onchange="updateCandidateStageFromModal()" class="w-full px-3 py-2 border rounded-xl text-sm focus:ring-2 focus:ring-emerald-500 outline-none font-semibold text-emerald-800 bg-emerald-50/50">
-            <option value="applied">Applied</option>
-            <option value="interviewing">Interviewing</option>
-            <option value="offered">Offered</option>
-            <option value="hired">Hired</option>
-          </select>
-        </div>
-
-        <div id="view-cand-file-container" class="p-3 border border-slate-200 rounded-xl flex items-center justify-between bg-slate-50">
-          <div class="flex items-center gap-2">
-            <i data-lucide="paperclip" class="w-4 h-4 text-emerald-600"></i>
-            <span class="text-xs font-medium text-slate-700" id="view-cand-filename">Resume Attached</span>
-          </div>
-          <button onclick="previewCandidateResume()" class="px-3 py-1 bg-emerald-600 text-white rounded-lg text-xs font-semibold hover:bg-emerald-700">Preview Resume</button>
-        </div>
-
-        <div class="pt-4 flex justify-between items-center border-t border-slate-100">
-          <button onclick="deleteCandidate()" class="px-3 py-1.5 text-xs font-semibold text-rose-600 hover:bg-rose-50 rounded-xl transition flex items-center gap-1">
-            <i data-lucide="trash-2" class="w-4 h-4"></i> Delete Candidate
-          </button>
-          <button onclick="closeViewCandidateModal()" class="px-4 py-2 text-xs font-semibold bg-slate-200 hover:bg-slate-300 text-slate-800 rounded-xl transition">Close</button>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- MODAL: EDIT EMPLOYEE -->
-  <div id="modal-edit-employee" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
-    <div class="bg-white rounded-2xl shadow-2xl max-w-lg w-full overflow-hidden border border-slate-100">
-      <div class="px-6 py-4 bg-gradient-to-r from-emerald-800 to-teal-800 text-white flex items-center justify-between">
-        <h3 class="font-bold text-base flex items-center gap-2"><i data-lucide="user-cog" class="w-5 h-5"></i> Edit Employee Profile</h3>
-        <button onclick="closeEditEmployeeModal()" class="text-emerald-200 hover:text-white"><i data-lucide="x" class="w-5 h-5"></i></button>
-      </div>
-
-      <form id="form-edit-employee" onsubmit="handleSaveEmployeeChanges(event)" class="p-6 space-y-4">
-        <input type="hidden" id="edit-emp-id" />
-        
-        <div>
-          <label class="block text-xs font-semibold text-slate-700 mb-1">Full Name *</label>
-          <input type="text" id="edit-emp-fullname" required class="w-full px-3 py-2 border rounded-xl text-sm focus:ring-2 focus:ring-emerald-500 outline-none" />
-        </div>
-
-        <div class="grid grid-cols-2 gap-3">
-          <div>
-            <label class="block text-xs font-semibold text-slate-700 mb-1">Email Address *</label>
-            <input type="email" id="edit-emp-email" required class="w-full px-3 py-2 border rounded-xl text-sm focus:ring-2 focus:ring-emerald-500 outline-none" />
-          </div>
-          <div>
-            <label class="block text-xs font-semibold text-slate-700 mb-1">Phone Number</label>
-            <input type="text" id="edit-emp-phone" class="w-full px-3 py-2 border rounded-xl text-sm focus:ring-2 focus:ring-emerald-500 outline-none" />
-          </div>
-        </div>
-
-        <div class="pt-2 border-t border-slate-100">
-          <p class="text-xs font-bold text-slate-700 mb-2">Philippine Statutory Identification Numbers</p>
-          <div class="grid grid-cols-2 gap-3">
-            <div>
-              <label class="block text-[11px] font-semibold text-slate-600 mb-1">SSS Number</label>
-              <input type="text" id="edit-emp-sss" class="w-full px-3 py-1.5 border rounded-xl text-xs focus:ring-2 focus:ring-emerald-500 outline-none font-mono" />
-            </div>
-            <div>
-              <label class="block text-[11px] font-semibold text-slate-600 mb-1">Pag-IBIG MID</label>
-              <input type="text" id="edit-emp-pagibig" class="w-full px-3 py-1.5 border rounded-xl text-xs focus:ring-2 focus:ring-emerald-500 outline-none font-mono" />
-            </div>
-            <div>
-              <label class="block text-[11px] font-semibold text-slate-600 mb-1">PhilHealth ID</label>
-              <input type="text" id="edit-emp-philhealth" class="w-full px-3 py-1.5 border rounded-xl text-xs focus:ring-2 focus:ring-emerald-500 outline-none font-mono" />
-            </div>
-            <div>
-              <label class="block text-[11px] font-semibold text-slate-600 mb-1">BIR TIN</label>
-              <input type="text" id="edit-emp-bir" class="w-full px-3 py-1.5 border rounded-xl text-xs focus:ring-2 focus:ring-emerald-500 outline-none font-mono" />
-            </div>
-          </div>
-        </div>
-
-        <!-- Document File Attachment -->
-        <div class="pt-2 border-t border-slate-100">
-          <label class="block text-xs font-bold text-slate-700 mb-1">Attach/Replace Document (PDF, PNG, JPG)</label>
-          <input type="file" id="edit-emp-file" accept="image/*,application/pdf" class="w-full text-xs text-slate-500 file:mr-3 file:py-1.5 file:px-3 file:rounded-xl file:border-0 file:text-xs file:font-semibold file:bg-emerald-50 file:text-emerald-700 hover:file:bg-emerald-100 cursor-pointer" />
-        </div>
-
-        <div class="pt-4 flex justify-end gap-3 border-t border-slate-100">
-          <button type="button" onclick="closeEditEmployeeModal()" class="px-4 py-2 text-xs font-semibold text-slate-600 hover:bg-slate-100 rounded-xl transition">Cancel</button>
-          <button type="submit" class="px-5 py-2 text-xs font-semibold bg-emerald-600 hover:bg-emerald-700 text-white rounded-xl shadow transition flex items-center gap-1.5">
-            <i data-lucide="save" class="w-4 h-4"></i> Save Changes
-          </button>
-        </div>
-      </form>
-    </div>
-  </div>
-
-  <!-- MODAL: ADD NEW EMPLOYEE -->
-  <div id="modal-employee" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
-    <div class="bg-white rounded-2xl shadow-2xl max-w-lg w-full overflow-hidden border border-slate-100">
-      <div class="px-6 py-4 bg-gradient-to-r from-emerald-800 to-teal-800 text-white flex items-center justify-between">
-        <h3 class="font-bold text-base flex items-center gap-2"><i data-lucide="user-plus" class="w-5 h-5"></i> Add New Employee Record</h3>
-        <button onclick="closeAddEmployeeModal()" class="text-emerald-200 hover:text-white"><i data-lucide="x" class="w-5 h-5"></i></button>
-      </div>
-      <form id="form-add-employee" onsubmit="handleAddEmployee(event)" class="p-6 space-y-3">
-        <div>
-          <label class="block text-xs font-semibold text-slate-700 mb-1">Full Name *</label>
-          <input type="text" id="emp-fullname" required placeholder="e.g. Juan A. Santos" class="w-full px-3 py-2 border rounded-xl text-sm focus:ring-2 focus:ring-emerald-500 outline-none" />
-        </div>
-        <div class="grid grid-cols-2 gap-3">
-          <div>
-            <label class="block text-xs font-semibold text-slate-700 mb-1">Email Address *</label>
-            <input type="email" id="emp-email" required placeholder="juan.santos@scarlight.ph" class="w-full px-3 py-2 border rounded-xl text-sm focus:ring-2 focus:ring-emerald-500 outline-none" />
-          </div>
-          <div>
-            <label class="block text-xs font-semibold text-slate-700 mb-1">Phone Number</label>
-            <input type="text" id="emp-phone" placeholder="+63 917 123 4567" class="w-full px-3 py-2 border rounded-xl text-sm focus:ring-2 focus:ring-emerald-500 outline-none" />
-          </div>
-        </div>
-        <div class="pt-2 border-t border-slate-100">
-          <p class="text-xs font-bold text-slate-700 mb-2">Philippine Statutory Identification Numbers</p>
-          <div class="grid grid-cols-2 gap-3">
-            <div>
-              <label class="block text-[11px] font-semibold text-slate-600 mb-1">SSS Number</label>
-              <input type="text" id="emp-sss" placeholder="34-1234567-8" class="w-full px-3 py-1.5 border rounded-xl text-xs focus:ring-2 focus:ring-emerald-500 outline-none font-mono" />
-            </div>
-            <div>
-              <label class="block text-[11px] font-semibold text-slate-600 mb-1">Pag-IBIG MID</label>
-              <input type="text" id="emp-pagibig" placeholder="1210-4567-8901" class="w-full px-3 py-1.5 border rounded-xl text-xs focus:ring-2 focus:ring-emerald-500 outline-none font-mono" />
-            </div>
-            <div>
-              <label class="block text-[11px] font-semibold text-slate-600 mb-1">PhilHealth ID</label>
-              <input type="text" id="emp-philhealth" placeholder="12-345678901-2" class="w-full px-3 py-1.5 border rounded-xl text-xs focus:ring-2 focus:ring-emerald-500 outline-none font-mono" />
-            </div>
-            <div>
-              <label class="block text-[11px] font-semibold text-slate-600 mb-1">BIR TIN</label>
-              <input type="text" id="emp-bir" placeholder="123-456-789-000" class="w-full px-3 py-1.5 border rounded-xl text-xs focus:ring-2 focus:ring-emerald-500 outline-none font-mono" />
-            </div>
-          </div>
-        </div>
-
-        <!-- Document File Attachment -->
-        <div class="pt-2 border-t border-slate-100">
-          <label class="block text-xs font-bold text-slate-700 mb-1">Attach Employee Document (PDF, Image)</label>
-          <input type="file" id="emp-file" accept="image/*,application/pdf" class="w-full text-xs text-slate-500 file:mr-3 file:py-1.5 file:px-3 file:rounded-xl file:border-0 file:text-xs file:font-semibold file:bg-emerald-50 file:text-emerald-700 hover:file:bg-emerald-100 cursor-pointer" />
-        </div>
-
-        <div class="pt-4 flex justify-end gap-3 border-t border-slate-100">
-          <button type="button" onclick="closeAddEmployeeModal()" class="px-4 py-2 text-xs font-semibold text-slate-600 hover:bg-slate-100 rounded-xl transition">Cancel</button>
-          <button type="submit" class="px-5 py-2 text-xs font-semibold bg-emerald-600 hover:bg-emerald-700 text-white rounded-xl shadow transition flex items-center gap-1.5">
-            <i data-lucide="user-plus" class="w-4 h-4"></i> Add Employee
-          </button>
-        </div>
-      </form>
-    </div>
-  </div>
-
-  <!-- MODAL: DOCUMENT PREVIEW -->
-  <div id="modal-preview-doc" class="fixed inset-0 bg-slate-900/70 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
-    <div class="bg-white rounded-2xl shadow-2xl max-w-3xl w-full h-[80vh] flex flex-col overflow-hidden border border-slate-100">
-      <div class="px-6 py-4 bg-slate-900 text-white flex items-center justify-between shrink-0">
-        <h3 class="font-bold text-sm flex items-center gap-2" id="preview-doc-title"><i data-lucide="file-text" class="w-4 h-4"></i> Document Viewer</h3>
-        <button onclick="closeDocumentPreview()" class="text-slate-400 hover:text-white"><i data-lucide="x" class="w-5 h-5"></i></button>
-      </div>
-      <div class="flex-1 bg-slate-100 p-4 overflow-auto flex items-center justify-center" id="preview-doc-content">
-        <!-- Injected via JavaScript -->
-      </div>
-      <div class="px-6 py-3 bg-white border-t border-slate-200 flex justify-end shrink-0">
-        <button onclick="closeDocumentPreview()" class="px-4 py-2 text-xs font-semibold bg-slate-200 hover:bg-slate-300 text-slate-800 rounded-xl transition">Close Preview</button>
-      </div>
-    </div>
-  </div>
-
-  <!-- JAVASCRIPT APP LOGIC -->
+  <!-- JAVASCRIPT LOGIC & BRIDGING SCRIPT -->
   <script>
-    // 32 Employee Records Pre-loaded
-    let employees = [
-      { id: 1, fullname: "Elena Rostova", email: "elena.rostova@scarlight.ph", phone: "+63 917 888 1234", sss: "34-8891023-4", pagibig: "1210-9981-2234", philhealth: "12-009182736-1", bir: "441-209-881-000", salary: 65000, fileName: "Contract_Rostova.pdf", fileData: null, fileType: "application/pdf" },
-      { id: 2, fullname: "Marcus Aurelius", email: "marcus.a@scarlight.ph", phone: "+63 918 555 4321", sss: "34-1122334-5", pagibig: "1210-4455-6677", philhealth: "12-334455667-8", bir: "112-334-556-000", salary: 50000, fileName: "ID_Card.png", fileData: null, fileType: "image/png" },
-      { id: 3, fullname: "Maria Clara Santos", email: "maria.santos@scarlight.ph", phone: "+63 919 123 9988", sss: "34-5544332-1", pagibig: "1210-8877-6655", philhealth: "12-998877665-4", bir: "332-114-556-000", salary: 45000, fileName: "Clearance_Maria.pdf", fileData: null, fileType: "application/pdf" },
-      { id: 4, fullname: "Jose Rizal Cruz", email: "jose.rizal@scarlight.ph", phone: "+63 920 444 1122", sss: "34-7788990-1", pagibig: "1210-1122-3344", philhealth: "12-556677889-0", bir: "778-990-112-000", salary: 58000, fileName: null, fileData: null, fileType: null },
-      { id: 5, fullname: "Andres Bonifacio", email: "andres.b@scarlight.ph", phone: "+63 921 777 8899", sss: "34-9988112-3", pagibig: "1210-3344-5566", philhealth: "12-112233445-6", bir: "998-112-334-000", salary: 52000, fileName: "NBI_Clearance.pdf", fileData: null, fileType: "application/pdf" },
-      { id: 6, fullname: "Apolinario Mabini", email: "apolinario.m@scarlight.ph", phone: "+63 922 333 4455", sss: "34-2233445-6", pagibig: "1210-5566-7788", philhealth: "12-445566778-9", bir: "223-344-556-000", salary: 60000, fileName: null, fileData: null, fileType: null },
-      { id: 7, fullname: "Melchora Aquino", email: "melchora.a@scarlight.ph", phone: "+63 923 111 5566", sss: "34-6677889-0", pagibig: "1210-7788-9900", philhealth: "12-667788990-1", bir: "667-788-990-000", salary: 42000, fileName: "Medical_Cert.pdf", fileData: null, fileType: "application/pdf" },
-      { id: 8, fullname: "Juan Luna", email: "juan.luna@scarlight.ph", phone: "+63 924 999 0011", sss: "34-4455667-8", pagibig: "1210-9900-1122", philhealth: "12-889900112-3", bir: "445-566-778-000", salary: 48000, fileName: null, fileData: null, fileType: null },
-      { id: 9, fullname: "Marcelo H. Del Pilar", email: "marcelo.d@scarlight.ph", phone: "+63 925 888 2233", sss: "34-1133557-9", pagibig: "1210-2244-6688", philhealth: "12-113355779-0", bir: "113-355-779-000", salary: 47000, fileName: null, fileData: null, fileType: null },
-      { id: 10, fullname: "Emilio Aguinaldo", email: "emilio.a@scarlight.ph", phone: "+63 926 777 3344", sss: "34-2244668-0", pagibig: "1210-3355-7799", philhealth: "12-224466880-1", bir: "224-466-880-000", salary: 55000, fileName: "BIR_2316.pdf", fileData: null, fileType: "application/pdf" },
-      { id: 11, fullname: "Gregorio Del Pilar", email: "gregorio.d@scarlight.ph", phone: "+63 927 666 4455", sss: "34-3355779-1", pagibig: "1210-4466-8800", philhealth: "12-335577990-2", bir: "335-577-990-000", salary: 41000, fileName: null, fileData: null, fileType: null },
-      { id: 12, fullname: "Antonio Luna", email: "antonio.l@scarlight.ph", phone: "+63 928 555 5566", sss: "34-4466880-2", pagibig: "1210-5577-9911", philhealth: "12-446688001-3", bir: "446-688-001-000", salary: 59000, fileName: "Diploma.pdf", fileData: null, fileType: "application/pdf" },
-      { id: 13, fullname: "Gabriela Silang", email: "gabriela.s@scarlight.ph", phone: "+63 929 444 6677", sss: "34-5577991-3", pagibig: "1210-6688-0022", philhealth: "12-557799112-4", bir: "557-799-112-000", salary: 46000, fileName: null, fileData: null, fileType: null },
-      { id: 14, fullname: "Panday Pira", email: "panday.p@scarlight.ph", phone: "+63 930 333 7788", sss: "34-6688002-4", pagibig: "1210-7799-1133", philhealth: "12-668800223-5", bir: "668-800-223-000", salary: 38000, fileName: null, fileData: null, fileType: null },
-      { id: 15, fullname: "Teresa Magbanua", email: "teresa.m@scarlight.ph", phone: "+63 931 222 8899", sss: "34-7799113-5", pagibig: "1210-8800-2244", philhealth: "12-779911334-6", bir: "779-911-334-000", salary: 44000, fileName: null, fileData: null, fileType: null },
-      { id: 16, fullname: "Lapu Lapu", email: "lapu.lapu@scarlight.ph", phone: "+63 932 111 9900", sss: "34-8800224-6", pagibig: "1210-9911-3355", philhealth: "12-880022445-7", bir: "880-022-445-000", salary: 62000, fileName: "Govt_ID.png", fileData: null, fileType: "image/png" },
-      { id: 17, fullname: "Francisco Balagtas", email: "francisco.b@scarlight.ph", phone: "+63 933 000 1122", sss: "34-9911335-7", pagibig: "1210-0022-4466", philhealth: "12-991133556-8", bir: "991-133-556-000", salary: 43000, fileName: null, fileData: null, fileType: null },
-      { id: 18, fullname: "Graciano Lopez Jaena", email: "graciano.l@scarlight.ph", phone: "+63 934 999 2233", sss: "34-0022446-8", pagibig: "1210-1133-5577", philhealth: "12-002244667-9", bir: "002-244-667-000", salary: 49000, fileName: null, fileData: null, fileType: null },
-      { id: 19, fullname: "Mariano Gomez", email: "mariano.g@scarlight.ph", phone: "+63 935 888 3344", sss: "34-1144770-9", pagibig: "1210-2255-8800", philhealth: "12-114477008-0", bir: "114-477-008-000", salary: 40000, fileName: null, fileData: null, fileType: null },
-      { id: 20, fullname: "Jose Burgos", email: "jose.burgos@scarlight.ph", phone: "+63 936 777 4455", sss: "34-2255881-0", pagibig: "1210-3366-9911", philhealth: "12-225588119-1", bir: "225-588-119-000", salary: 40000, fileName: null, fileData: null, fileType: null },
-      { id: 21, fullname: "Jacinto Zamora", email: "jacinto.z@scarlight.ph", phone: "+63 937 666 5566", sss: "34-3366992-1", pagibig: "1210-4477-0022", philhealth: "12-336699220-2", bir: "336-699-220-000", salary: 40000, fileName: null, fileData: null, fileType: null },
-      { id: 22, fullname: "Emilio Jacinto", email: "emilio.j@scarlight.ph", phone: "+63 938 555 6677", sss: "34-4477003-2", pagibig: "1210-5588-1133", philhealth: "12-447700331-3", bir: "447-700-331-000", salary: 51000, fileName: null, fileData: null, fileType: null },
-      { id: 23, fullname: "Diego Silang", email: "diego.s@scarlight.ph", phone: "+63 939 444 7788", sss: "34-5588114-3", pagibig: "1210-6699-2244", philhealth: "12-558811442-4", bir: "558-811-442-000", salary: 45000, fileName: null, fileData: null, fileType: null },
-      { id: 24, fullname: "Macario Sakay", email: "macario.s@scarlight.ph", phone: "+63 940 333 8899", sss: "34-6699225-4", pagibig: "1210-7700-3355", philhealth: "12-669922553-5", bir: "669-922-553-000", salary: 39000, fileName: null, fileData: null, fileType: null },
-      { id: 25, fullname: "Carlos P. Romulo", email: "carlos.r@scarlight.ph", phone: "+63 941 222 9900", sss: "34-7700336-5", pagibig: "1210-8811-4466", philhealth: "12-770033664-6", bir: "770-033-664-000", salary: 67000, fileName: "Passport_Scan.pdf", fileData: null, fileType: "application/pdf" },
-      { id: 26, fullname: "Claro M. Recto", email: "claro.r@scarlight.ph", phone: "+63 942 111 0011", sss: "34-8811447-6", pagibig: "1210-9922-5577", philhealth: "12-881144775-7", bir: "881-144-775-000", salary: 61000, fileName: null, fileData: null, fileType: null },
-      { id: 27, fullname: "Lorenzo Ruiz", email: "lorenzo.r@scarlight.ph", phone: "+63 943 000 2233", sss: "34-9922558-7", pagibig: "1210-0033-6688", philhealth: "12-992255886-8", bir: "992-255-886-000", salary: 37000, fileName: null, fileData: null, fileType: null },
-      { id: 28, fullname: "Pedro Calungsod", email: "pedro.c@scarlight.ph", phone: "+63 944 999 3344", sss: "34-0033669-8", pagibig: "1210-1144-7799", philhealth: "12-003366997-9", bir: "003-366-997-000", salary: 37000, fileName: null, fileData: null, fileType: null },
-      { id: 29, fullname: "Juan Flavier", email: "juan.flavier@scarlight.ph", phone: "+63 945 888 4455", sss: "34-1144556-9", pagibig: "1210-2255-8811", philhealth: "12-114455668-0", bir: "114-455-668-000", salary: 53000, fileName: null, fileData: null, fileType: null },
-      { id: 30, fullname: "Vicente Sotto", email: "vicente.s@scarlight.ph", phone: "+63 946 777 5566", sss: "34-2255667-0", pagibig: "1210-3366-9922", philhealth: "12-225566779-1", bir: "225-566-779-000", salary: 54000, fileName: null, fileData: null, fileType: null },
-      { id: 31, fullname: "Conrado Benitez", email: "conrado.b@scarlight.ph", phone: "+63 947 666 6677", sss: "34-3366778-1", pagibig: "1210-4477-0033", philhealth: "12-336677880-2", bir: "336-677-880-000", salary: 48000, fileName: null, fileData: null, fileType: null },
-      { id: 32, fullname: "Josefa Llanes Escoda", email: "josefa.e@scarlight.ph", phone: "+63 948 555 7788", sss: "34-4477889-2", pagibig: "1210-5588-1144", philhealth: "12-447788991-3", bir: "447-788-991-000", salary: 56000, fileName: "Escoda_Resume.pdf", fileData: null, fileType: "application/pdf" }
+    // Initialize Lucide Icons
+    lucide.createIcons();
+
+    // Sample Data
+    const employees = [
+      { id: 1, name: "Elena Rostova", email: "elena@scarlight.ph", phone: "+63 917 111 2222", sss: "34-1234567-8", pagibig: "1211-4567-8901", philhealth: "12-345678901-2", tin: "123-456-789-000", salary: 45000 },
+      { id: 2, name: "Sarah Jenkins", email: "sarah@scarlight.ph", phone: "+63 918 222 3333", sss: "34-2345678-9", pagibig: "1211-5678-9012", philhealth: "12-456789012-3", tin: "234-567-890-000", salary: 50000 },
+      { id: 3, name: "Marcus Thorne", email: "marcus@scarlight.ph", phone: "+63 919 333 4444", sss: "34-3456789-0", pagibig: "1211-6789-0123", philhealth: "12-567890123-4", tin: "345-678-901-000", salary: 40000 },
+      { id: 4, name: "Aria Cruz", email: "aria@scarlight.ph", phone: "+63 920 444 5555", sss: "34-4567890-1", pagibig: "1211-7890-1234", philhealth: "12-678901234-5", tin: "456-789-012-000", salary: 38000 },
+      { id: 5, name: "David Chen", email: "david@scarlight.ph", phone: "+63 921 555 6666", sss: "34-5678901-2", pagibig: "1211-8901-2345", philhealth: "12-789012345-6", tin: "567-890-123-000", salary: 52000 }
     ];
 
-    // Pre-loaded ATS Candidates
-    let candidates = [
-      { id: 101, fullname: "Gabriel Silang", position: "Sourcing Specialist", stage: "applied", email: "gabriel.s@gmail.com", phone: "+63 917 111 2222", fileName: "Gabriel_Resume.pdf", fileData: null, fileType: "application/pdf" },
-      { id: 102, fullname: "Lualhati Bautista", position: "AR Specialist", stage: "interviewing", email: "lualhati.b@yahoo.com", phone: "+63 918 222 3333", fileName: "Lualhati_CV.pdf", fileData: null, fileType: "application/pdf" },
-      { id: 103, fullname: "Fernando Amorsolo", position: "UI/UX Designer", stage: "interviewing", email: "fernando.a@art.ph", phone: "+63 919 333 4444", fileName: "Portfolio_Link.png", fileData: null, fileType: "image/png" },
-      { id: 104, fullname: "Nick Joaquin", position: "Content Strategist", stage: "offered", email: "nick.j@writer.ph", phone: "+63 920 444 5555", fileName: null, fileData: null, fileType: null }
+    const candidates = [
+      { id: 101, name: "Gabriel Silang", position: "Sourcing Specialist", stage: "applied" },
+      { id: 102, name: "Hannah Reyes", position: "Ad Marketing Specialist", stage: "interviewing" },
+      { id: 103, name: "Liam Mendoza", position: "AR Specialist", stage: "offered" }
     ];
 
-    // Initialize App
-    document.addEventListener("DOMContentLoaded", () => {
-      lucide.createIcons();
-      renderEmployeeTable();
-      renderATSBoard();
-      runPayrollSimulation();
-    });
-
-    // Dynamic Tab Switcher
+    // Tab Switching Function
     function switchTab(tabId) {
-      document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
+      document.querySelectorAll('.tab-content').forEach(tab => tab.classList.remove('active'));
       document.querySelectorAll('.nav-btn').forEach(btn => {
         btn.classList.remove('bg-gradient-to-r', 'from-emerald-600', 'to-teal-600', 'text-white', 'shadow-md');
-        btn.classList.add('hover:bg-emerald-900/50', 'hover:text-white');
+        btn.classList.add('hover:bg-emerald-900/50');
       });
 
-      const activeTab = document.getElementById(`tab-${tabId}`);
-      if(activeTab) activeTab.classList.add('active');
+      const selectedTab = document.getElementById(`tab-${tabId}`);
+      if (selectedTab) selectedTab.classList.add('active');
 
       const activeNav = document.getElementById(`nav-${tabId}`);
-      if(activeNav) {
+      if (activeNav) {
         activeNav.classList.add('bg-gradient-to-r', 'from-emerald-600', 'to-teal-600', 'text-white', 'shadow-md');
         activeNav.classList.remove('hover:bg-emerald-900/50');
       }
     }
 
-    // Render Employee Directory
-    function renderEmployeeTable(data = employees) {
+    // Populate Employee Directory Table
+    function renderEmployeeTable() {
       const tbody = document.getElementById('employee-table-body');
-      tbody.innerHTML = '';
-
-      if (data.length === 0) {
-        tbody.innerHTML = `<tr><td colspan="10" class="text-center py-6 text-slate-400">No employees found matching query.</td></tr>`;
-        return;
-      }
-
-      data.forEach((emp, index) => {
-        let docCell = `<span class="text-slate-400 italic">No File</span>`;
-        if (emp.fileName) {
-          docCell = `
-            <button onclick="previewEmployeeDoc(${emp.id})" class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-emerald-50 text-emerald-700 border border-emerald-200 hover:bg-emerald-100 transition font-medium">
-              <i data-lucide="paperclip" class="w-3.5 h-3.5"></i> ${emp.fileName}
-            </button>
-          `;
-        }
-
-        const tr = document.createElement('tr');
-        tr.className = "hover:bg-slate-50/80 transition";
-        tr.innerHTML = `
-          <td class="py-3 px-4 font-mono text-slate-400">${index + 1}</td>
-          <td class="py-3 px-4 font-semibold text-slate-900 cursor-pointer hover:text-emerald-600" onclick="openEditEmployeeModal(${emp.id})">${emp.fullname}</td>
+      tbody.innerHTML = employees.map((emp, index) => `
+        <tr class="hover:bg-slate-50 transition">
+          <td class="py-3 px-4 font-semibold text-slate-400">${index + 1}</td>
+          <td class="py-3 px-4 font-bold text-slate-800">${emp.name}</td>
           <td class="py-3 px-4 text-slate-600">${emp.email}</td>
-          <td class="py-3 px-4 text-slate-600 font-mono">${emp.phone}</td>
-          <td class="py-3 px-4 text-slate-600 font-mono">${emp.sss}</td>
-          <td class="py-3 px-4 text-slate-600 font-mono">${emp.pagibig}</td>
-          <td class="py-3 px-4 text-slate-600 font-mono">${emp.philhealth}</td>
-          <td class="py-3 px-4 text-slate-600 font-mono">${emp.bir}</td>
-          <td class="py-3 px-4 text-slate-600">${docCell}</td>
-          <td class="py-3 px-4 text-center">
-            <button onclick="deleteEmployee(${emp.id})" class="p-1.5 text-slate-400 hover:text-rose-600 transition rounded-lg hover:bg-rose-50">
-              <i data-lucide="trash-2" class="w-4 h-4"></i>
-            </button>
-          </td>
-        `;
-        tbody.appendChild(tr);
-      });
-
-      document.getElementById('dash-emp-count').innerText = `${employees.length} Active`;
-      lucide.createIcons();
+          <td class="py-3 px-4 text-slate-600">${emp.phone}</td>
+          <td class="py-3 px-4 text-slate-600">${emp.sss}</td>
+          <td class="py-3 px-4 text-slate-600">${emp.pagibig}</td>
+          <td class="py-3 px-4 text-slate-600">${emp.philhealth}</td>
+          <td class="py-3 px-4 text-slate-600">${emp.tin}</td>
+        </tr>
+      `).join('');
     }
 
-    // Render ATS Recruitment Board
-    function renderATSBoard() {
-      const stages = ['applied', 'interviewing', 'offered', 'hired'];
-      
-      stages.forEach(stage => {
-        const col = document.getElementById(`col-${stage}`);
-        const countEl = document.getElementById(`count-${stage}`);
-        col.innerHTML = '';
-
-        const stageCandidates = candidates.filter(c => c.stage === stage);
-        countEl.innerText = stageCandidates.length;
-
-        stageCandidates.forEach(cand => {
-          const card = document.createElement('div');
-          card.draggable = true;
-          card.ondragstart = (e) => handleDragStart(e, cand.id);
-          card.className = "ats-card bg-white p-3.5 rounded-xl border border-slate-200 shadow-sm hover:shadow-md hover:border-emerald-300 transition group space-y-2 select-none";
-          
-          card.innerHTML = `
-            <div onclick="openViewCandidateModal(${cand.id})">
-              <div class="flex items-center justify-between">
-                <p class="font-bold text-sm text-slate-800 group-hover:text-emerald-600 transition flex items-center gap-1.5">
-                  <i data-lucide="grip-vertical" class="w-3.5 h-3.5 text-slate-300"></i> ${cand.fullname}
-                </p>
-                ${cand.fileName ? '<i data-lucide="paperclip" class="w-3.5 h-3.5 text-emerald-600"></i>' : ''}
-              </div>
-              <p class="text-xs text-slate-500 font-medium pl-5">${cand.position}</p>
-              <p class="text-[11px] text-slate-400 truncate mt-1 pl-5">${cand.email}</p>
-            </div>
-            
-            <div class="pt-2 border-t border-slate-100 flex items-center justify-between gap-1 text-[10px]">
-              <span class="text-slate-400 font-semibold">Move:</span>
-              <div class="flex gap-1">
-                ${stage !== 'applied' ? `<button onclick="moveCandidateStage(${cand.id}, '${getPrevStage(stage)}')" class="px-1.5 py-0.5 bg-slate-100 hover:bg-slate-200 text-slate-600 rounded">← Back</button>` : ''}
-                ${stage !== 'hired' ? `<button onclick="moveCandidateStage(${cand.id}, '${getNextStage(stage)}')" class="px-1.5 py-0.5 bg-emerald-50 hover:bg-emerald-100 text-emerald-700 font-bold rounded">Next →</button>` : ''}
-              </div>
-            </div>
-          `;
-          col.appendChild(card);
-        });
-      });
-
-      document.getElementById('dash-ats-count').innerText = `${candidates.length} Candidates`;
-      lucide.createIcons();
-    }
-
-    // DRAG AND DROP HANDLERS FOR ATS PIPELINE
-    function handleDragStart(e, candidateId) {
-      e.dataTransfer.setData('text/plain', candidateId);
-      e.dataTransfer.effectAllowed = 'move';
-    }
-
-    function handleDragOver(e) {
-      e.preventDefault();
-      e.dataTransfer.dropEffect = 'move';
-      e.currentTarget.classList.add('drag-over');
-    }
-
-    function handleDragLeave(e) {
-      e.currentTarget.classList.remove('drag-over');
-    }
-
-    function handleDrop(e, targetStage) {
-      e.preventDefault();
-      e.currentTarget.classList.remove('drag-over');
-      const candidateId = parseInt(e.dataTransfer.getData('text/plain'));
-      if (candidateId) {
-        moveCandidateStage(candidateId, targetStage);
-      }
-    }
-
-    function getNextStage(current) {
-      if(current === 'applied') return 'interviewing';
-      if(current === 'interviewing') return 'offered';
-      if(current === 'offered') return 'hired';
-      return 'hired';
-    }
-
-    function getPrevStage(current) {
-      if(current === 'hired') return 'offered';
-      if(current === 'offered') return 'interviewing';
-      if(current === 'interviewing') return 'applied';
-      return 'applied';
-    }
-
-    function moveCandidateStage(id, newStage) {
-      const cand = candidates.find(c => c.id === id);
-      if(cand) {
-        cand.stage = newStage;
-        renderATSBoard();
-      }
-    }
-
-    // Modal Controls: ATS Candidate Creation
-    function openAddCandidateModal() {
-      document.getElementById('modal-add-candidate').classList.remove('hidden');
-    }
-    function closeAddCandidateModal() {
-      document.getElementById('modal-add-candidate').classList.add('hidden');
-      document.getElementById('form-add-candidate').reset();
-    }
-
-    function handleAddCandidate(e) {
-      e.preventDefault();
-      const fileInput = document.getElementById('cand-file');
-      const file = fileInput.files[0];
-
-      const saveCandidate = (fileName = null, fileData = null, fileType = null) => {
-        const newCand = {
-          id: Date.now(),
-          fullname: document.getElementById('cand-fullname').value,
-          position: document.getElementById('cand-position').value,
-          stage: document.getElementById('cand-stage').value,
-          email: document.getElementById('cand-email').value,
-          phone: document.getElementById('cand-phone').value || "N/A",
-          fileName,
-          fileData,
-          fileType
-        };
-        candidates.push(newCand);
-        renderATSBoard();
-        closeAddCandidateModal();
-      };
-
-      if (file) {
-        const reader = new FileReader();
-        reader.onload = function(evt) {
-          saveCandidate(file.name, evt.target.result, file.type);
-        };
-        reader.readAsDataURL(file);
-      } else {
-        saveCandidate();
-      }
-    }
-
-    // Modal Controls: ATS Candidate View / Details
-    function openViewCandidateModal(id) {
-      const cand = candidates.find(c => c.id === id);
-      if(!cand) return;
-
-      document.getElementById('view-cand-id').value = cand.id;
-      document.getElementById('view-cand-name').innerText = cand.fullname;
-      document.getElementById('view-cand-position').innerText = cand.position;
-      document.getElementById('view-cand-email').innerText = cand.email;
-      document.getElementById('view-cand-phone').innerText = cand.phone;
-      document.getElementById('view-cand-stage').value = cand.stage;
-
-      const fileContainer = document.getElementById('view-cand-file-container');
-      if (cand.fileName) {
-        fileContainer.classList.remove('hidden');
-        document.getElementById('view-cand-filename').innerText = cand.fileName;
-      } else {
-        fileContainer.classList.add('hidden');
-      }
-
-      document.getElementById('modal-view-candidate').classList.remove('hidden');
-      lucide.createIcons();
-    }
-
-    function closeViewCandidateModal() {
-      document.getElementById('modal-view-candidate').classList.add('hidden');
-    }
-
-    function updateCandidateStageFromModal() {
-      const id = parseInt(document.getElementById('view-cand-id').value);
-      const newStage = document.getElementById('view-cand-stage').value;
-      moveCandidateStage(id, newStage);
-    }
-
-    function deleteCandidate() {
-      const id = parseInt(document.getElementById('view-cand-id').value);
-      if(confirm('Are you sure you want to remove this candidate from ATS?')) {
-        candidates = candidates.filter(c => c.id !== id);
-        renderATSBoard();
-        closeViewCandidateModal();
-      }
-    }
-
-    function previewCandidateResume() {
-      const id = parseInt(document.getElementById('view-cand-id').value);
-      const cand = candidates.find(c => c.id === id);
-      if(!cand || !cand.fileName) return;
-
-      const titleEl = document.getElementById('preview-doc-title');
-      const contentEl = document.getElementById('preview-doc-content');
-
-      titleEl.innerHTML = `<i data-lucide="file-text" class="w-4 h-4"></i> Candidate Resume: ${cand.fileName} (${cand.fullname})`;
-
-      if (cand.fileData) {
-        if (cand.fileType && cand.fileType.startsWith('image/')) {
-          contentEl.innerHTML = `<img src="${cand.fileData}" alt="Resume Preview" class="max-w-full max-h-full rounded-lg shadow border" />`;
-        } else if (cand.fileType === 'application/pdf') {
-          contentEl.innerHTML = `<iframe src="${cand.fileData}" class="w-full h-full rounded-lg border"></iframe>`;
-        } else {
-          contentEl.innerHTML = `
-            <div class="text-center space-y-3">
-              <i data-lucide="file-check" class="w-12 h-12 text-emerald-600 mx-auto"></i>
-              <p class="text-sm font-semibold text-slate-800">${cand.fileName}</p>
-              <a href="${cand.fileData}" download="${cand.fileName}" class="inline-block px-4 py-2 bg-emerald-600 text-white text-xs font-bold rounded-xl shadow hover:bg-emerald-700">Download Resume Attachment</a>
-            </div>
-          `;
-        }
-      } else {
-        contentEl.innerHTML = `
-          <div class="bg-white p-8 rounded-2xl shadow border max-w-md w-full text-center space-y-4">
-            <div class="w-12 h-12 rounded-full bg-emerald-50 text-emerald-600 flex items-center justify-center mx-auto">
-              <i data-lucide="file-text" class="w-6 h-6"></i>
-            </div>
-            <div>
-              <h4 class="font-bold text-slate-800 text-sm">${cand.fileName}</h4>
-              <p class="text-xs text-slate-500 mt-1">Attached to Candidate ATS Record: ${cand.fullname}</p>
-            </div>
-          </div>
-        `;
-      }
-
-      document.getElementById('modal-preview-doc').classList.remove('hidden');
-      lucide.createIcons();
-    }
-
-    // Document Preview for Directory
-    function previewEmployeeDoc(id) {
-      const emp = employees.find(e => e.id === id);
-      if (!emp || !emp.fileName) return;
-
-      const titleEl = document.getElementById('preview-doc-title');
-      const contentEl = document.getElementById('preview-doc-content');
-
-      titleEl.innerHTML = `<i data-lucide="file-text" class="w-4 h-4"></i> Preview: ${emp.fileName} (${emp.fullname})`;
-
-      if (emp.fileData) {
-        if (emp.fileType && emp.fileType.startsWith('image/')) {
-          contentEl.innerHTML = `<img src="${emp.fileData}" alt="Document Preview" class="max-w-full max-h-full rounded-lg shadow border" />`;
-        } else if (emp.fileType === 'application/pdf') {
-          contentEl.innerHTML = `<iframe src="${emp.fileData}" class="w-full h-full rounded-lg border"></iframe>`;
-        } else {
-          contentEl.innerHTML = `
-            <div class="text-center space-y-3">
-              <i data-lucide="file-check" class="w-12 h-12 text-emerald-600 mx-auto"></i>
-              <p class="text-sm font-semibold text-slate-800">${emp.fileName}</p>
-              <a href="${emp.fileData}" download="${emp.fileName}" class="inline-block px-4 py-2 bg-emerald-600 text-white text-xs font-bold rounded-xl shadow hover:bg-emerald-700">Download Attachment</a>
-            </div>
-          `;
-        }
-      } else {
-        contentEl.innerHTML = `
-          <div class="bg-white p-8 rounded-2xl shadow border max-w-md w-full text-center space-y-4">
-            <div class="w-12 h-12 rounded-full bg-emerald-50 text-emerald-600 flex items-center justify-center mx-auto">
-              <i data-lucide="file-text" class="w-6 h-6"></i>
-            </div>
-            <div>
-              <h4 class="font-bold text-slate-800 text-sm">${emp.fileName}</h4>
-              <p class="text-xs text-slate-500 mt-1">Attached to ${emp.fullname}'s HR Profile Record.</p>
-            </div>
-          </div>
-        `;
-      }
-
-      document.getElementById('modal-preview-doc').classList.remove('hidden');
-      lucide.createIcons();
-    }
-
-    function closeDocumentPreview() {
-      document.getElementById('modal-preview-doc').classList.add('hidden');
-    }
-
-    // Global Search Filter
+    // Filter Employee Table via Top Search Bar
     function filterEmployeeTable() {
       const query = document.getElementById('global-search').value.toLowerCase();
-      const filtered = employees.filter(emp => 
-        emp.fullname.toLowerCase().includes(query) ||
-        emp.email.toLowerCase().includes(query) ||
-        emp.phone.toLowerCase().includes(query)
-      );
-      renderEmployeeTable(filtered);
+      const rows = document.querySelectorAll('#employee-table-body tr');
+      rows.forEach(row => {
+        const text = row.innerText.toLowerCase();
+        row.style.display = text.includes(query) ? '' : 'none';
+      });
     }
 
-    // Employee Modals: Add
-    function openAddEmployeeModal() {
-      document.getElementById('modal-employee').classList.remove('hidden');
-    }
-    function closeAddEmployeeModal() {
-      document.getElementById('modal-employee').classList.add('hidden');
-      document.getElementById('form-add-employee').reset();
-    }
-    
-    function handleAddEmployee(e) {
-      e.preventDefault();
-      const fileInput = document.getElementById('emp-file');
-      const file = fileInput.files[0];
-
-      const saveEmployee = (fileName = null, fileData = null, fileType = null) => {
-        const newEmp = {
-          id: Date.now(),
-          fullname: document.getElementById('emp-fullname').value,
-          email: document.getElementById('emp-email').value,
-          phone: document.getElementById('emp-phone').value || "N/A",
-          sss: document.getElementById('emp-sss').value || "N/A",
-          pagibig: document.getElementById('emp-pagibig').value || "N/A",
-          philhealth: document.getElementById('emp-philhealth').value || "N/A",
-          bir: document.getElementById('emp-bir').value || "N/A",
-          salary: 45000,
-          fileName,
-          fileData,
-          fileType
-        };
-        employees.unshift(newEmp);
-        renderEmployeeTable();
-        runPayrollSimulation();
-        closeAddEmployeeModal();
-      };
-
-      if (file) {
-        const reader = new FileReader();
-        reader.onload = function(evt) {
-          saveEmployee(file.name, evt.target.result, file.type);
-        };
-        reader.readAsDataURL(file);
-      } else {
-        saveEmployee();
-      }
+    // Populate ATS Candidates
+    function renderCandidates() {
+      ['applied', 'interviewing', 'offered', 'hired'].forEach(stage => {
+        const col = document.getElementById(`col-${stage}`);
+        const stageCands = candidates.filter(c => c.stage === stage);
+        col.innerHTML = stageCands.map(c => `
+          <div class="bg-white p-3 rounded-xl border border-slate-200 shadow-sm hover:shadow transition">
+            <p class="font-bold text-xs text-slate-800">${c.name}</p>
+            <p class="text-[11px] text-slate-500">${c.position}</p>
+          </div>
+        `).join('') || '<p class="text-[11px] text-slate-400 text-center py-4">No candidates</p>';
+      });
     }
 
-    // Employee Modals: Edit
-    function openEditEmployeeModal(id) {
-      const emp = employees.find(e => e.id === id);
-      if(!emp) return;
-
-      document.getElementById('edit-emp-id').value = emp.id;
-      document.getElementById('edit-emp-fullname').value = emp.fullname;
-      document.getElementById('edit-emp-email').value = emp.email;
-      document.getElementById('edit-emp-phone').value = emp.phone;
-      document.getElementById('edit-emp-sss').value = emp.sss;
-      document.getElementById('edit-emp-pagibig').value = emp.pagibig;
-      document.getElementById('edit-emp-philhealth').value = emp.philhealth;
-      document.getElementById('edit-emp-bir').value = emp.bir;
-
-      document.getElementById('modal-edit-employee').classList.remove('hidden');
-    }
-    function closeEditEmployeeModal() {
-      document.getElementById('modal-edit-employee').classList.add('hidden');
-    }
-    function handleSaveEmployeeChanges(e) {
-      e.preventDefault();
-      const id = parseInt(document.getElementById('edit-emp-id').value);
-      const emp = employees.find(e => e.id === id);
-      const fileInput = document.getElementById('edit-emp-file');
-      const file = fileInput.files[0];
-
-      const applyChanges = (fileName = emp.fileName, fileData = emp.fileData, fileType = emp.fileType) => {
-        if(emp) {
-          emp.fullname = document.getElementById('edit-emp-fullname').value;
-          emp.email = document.getElementById('edit-emp-email').value;
-          emp.phone = document.getElementById('edit-emp-phone').value;
-          emp.sss = document.getElementById('edit-emp-sss').value;
-          emp.pagibig = document.getElementById('edit-emp-pagibig').value;
-          emp.philhealth = document.getElementById('edit-emp-philhealth').value;
-          emp.bir = document.getElementById('edit-emp-bir').value;
-          emp.fileName = fileName;
-          emp.fileData = fileData;
-          emp.fileType = fileType;
-        }
-        renderEmployeeTable();
-        runPayrollSimulation();
-        closeEditEmployeeModal();
-      };
-
-      if (file) {
-        const reader = new FileReader();
-        reader.onload = function(evt) {
-          applyChanges(file.name, evt.target.result, file.type);
-        };
-        reader.readAsDataURL(file);
-      } else {
-        applyChanges();
-      }
-    }
-
-    // Delete Employee
-    function deleteEmployee(id) {
-      if(confirm('Are you sure you want to remove this employee record?')) {
-        employees = employees.filter(e => e.id !== id);
-        renderEmployeeTable();
-        runPayrollSimulation();
-      }
-    }
-
-    // Payroll Calculation
+    // Run Payroll Simulation
     function runPayrollSimulation() {
-      const tbody = document.getElementById('payroll-table-body');
-      tbody.innerHTML = '';
       let totalGross = 0;
-
-      employees.forEach(emp => {
-        const gross = emp.salary;
+      const tbody = document.getElementById('payroll-table-body');
+      
+      tbody.innerHTML = employees.map(emp => {
+        const gross = emp.salary / 2; // Semi-monthly gross
         const sss = gross * 0.045;
         const pagibig = gross * 0.02;
         const philhealth = gross * 0.025;
-        const tax = gross * 0.10;
-        const net = gross - (sss + pagibig + philhealth + tax);
-
+        const net = gross - (sss + pagibig + philhealth);
         totalGross += gross;
 
-        const tr = document.createElement('tr');
-        tr.className = "hover:bg-slate-50 transition";
-        tr.innerHTML = `
-          <td class="py-3 px-4 font-semibold text-slate-800">${emp.fullname}</td>
-          <td class="py-3 px-4 font-mono">₱${gross.toLocaleString('en-US', {minimumFractionDigits: 2})}</td>
-          <td class="py-3 px-4 font-mono text-slate-500">₱${sss.toLocaleString('en-US', {minimumFractionDigits: 2})}</td>
-          <td class="py-3 px-4 font-mono text-slate-500">₱${pagibig.toLocaleString('en-US', {minimumFractionDigits: 2})}</td>
-          <td class="py-3 px-4 font-mono text-slate-500">₱${philhealth.toLocaleString('en-US', {minimumFractionDigits: 2})}</td>
-          <td class="py-3 px-4 font-mono text-slate-500">₱${tax.toLocaleString('en-US', {minimumFractionDigits: 2})}</td>
-          <td class="py-3 px-4 font-mono font-bold text-emerald-700">₱${net.toLocaleString('en-US', {minimumFractionDigits: 2})}</td>
+        return `
+          <tr class="hover:bg-slate-50 transition">
+            <td class="py-3 px-4 font-bold text-slate-800">${emp.name}</td>
+            <td class="py-3 px-4 text-slate-700">₱${gross.toLocaleString('en-US', {minimumFractionDigits: 2})}</td>
+            <td class="py-3 px-4 text-slate-500">₱${sss.toLocaleString('en-US', {minimumFractionDigits: 2})}</td>
+            <td class="py-3 px-4 text-slate-500">₱${pagibig.toLocaleString('en-US', {minimumFractionDigits: 2})}</td>
+            <td class="py-3 px-4 text-slate-500">₱${philhealth.toLocaleString('en-US', {minimumFractionDigits: 2})}</td>
+            <td class="py-3 px-4 font-bold text-emerald-700">₱${net.toLocaleString('en-US', {minimumFractionDigits: 2})}</td>
+          </tr>
         `;
-        tbody.appendChild(tr);
-      });
+      }).join('');
 
       document.getElementById('payroll-gross-display').innerText = `₱${totalGross.toLocaleString('en-US', {minimumFractionDigits: 2})}`;
-      document.getElementById('dash-payroll-est').innerText = `₱${totalGross.toLocaleString('en-US', {minimumFractionDigits: 2})}`;
     }
+
+    // Initial Load Execution
+    renderEmployeeTable();
+    renderCandidates();
+    runPayrollSimulation();
   </script>
 </body>
 </html>
