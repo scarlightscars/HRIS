@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>HR & Employee Portal</title>
+  <style>
+    :root {
+      --primary: #2563eb;
+      --primary-dark: #1d4ed8;
+      --bg: #f8fafc;
+      --card-bg: #ffffff;
+      --text: #0f172a;
+      --text-muted: #64748b;
+      --border: #e2e8f0;
+      --success: #16a34a;
+      --danger: #dc2626;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; }
+    body { background-color: var(--bg); color: var(--text); padding: 20px; display: flex; justify-content: center; }
+    .container { width: 100%; max-width: 900px; }
+
+    /* Common Card Styles */
+    .card { background: var(--card-bg); border-radius: 12px; border: 1px solid var(--border); padding: 24px; margin-bottom: 20px; box-shadow: 0 1px 3px rgba(0,0,0,0.05); }
+    h2 { font-size: 1.25rem; margin-bottom: 16px; font-weight: 600; }
+    
+    /* Login Styling */
+    .login-box { max-width: 400px; margin: 80px auto 0; }
+    .form-group { margin-bottom: 16px; }
+    label { display: block; font-size: 0.875rem; font-weight: 500; margin-bottom: 6px; color: var(--text-muted); }
+    input, select, textarea { width: 100%; padding: 10px 12px; border: 1px solid var(--border); border-radius: 6px; font-size: 0.95rem; outline: none; }
+    input:focus, select:focus, textarea:focus { border-color: var(--primary); }
+    
+    .btn { display: inline-block; width: 100%; padding: 10px 16px; border: none; border-radius: 6px; font-weight: 600; cursor: pointer; text-align: center; transition: background 0.2s; }
+    .btn-primary { background: var(--primary); color: white; }
+    .btn-primary:hover { background: var(--primary-dark); }
+    .btn-success { background: var(--success); color: white; }
+    .btn-danger { background: var(--danger); color: white; }
+    .btn-secondary { background: #e2e8f0; color: var(--text); }
+    
+    /* Layout Header */
+    .portal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px; padding-bottom: 12px; border-bottom: 1px solid var(--border); }
+    .user-info { font-size: 0.9rem; color: var(--text-muted); }
+    
+    /* Clock Widget */
+    .clock-display { text-align: center; margin: 20px 0; }
+    .time { font-size: 2.5rem; font-weight: 700; color: var(--text); }
+    .date { font-size: 1rem; color: var(--text-muted); }
+    .clock-actions { display: flex; gap: 12px; margin-top: 16px; }
+
+    /* Tables */
+    table { width: 100%; border-collapse: collapse; margin-top: 12px; font-size: 0.9rem; }
+    th, td { text-align: left; padding: 10px 12px; border-bottom: 1px solid var(--border); }
+    th { color: var(--text-muted); font-weight: 600; background: #f1f5f9; }
+    
+    .badge { padding: 4px 8px; border-radius: 4px; font-size: 0.75rem; font-weight: 600; display: inline-block; }
+    .badge-pending { background: #fef3c7; color: #d97706; }
+    .badge-approved { background: #dcfce7; color: #15803d; }
+    .badge-rejected { background: #fee2e2; color: #b91c1c; }
+
+    /* Utilities */
+    .hidden { display: none !important; }
+    .flex-gap { display: flex; gap: 8px; }
+  </style>
+</head>
+<body>
+
+<div class="container">
+
+  <!-- ================= LOGGING VIEW ================= -->
+  <div id="login-view" class="card login-box">
+    <h2>Portal Sign In</h2>
+    <form id="login-form">
+      <div class="form-group">
+        <label for="username">Username / ID</label>
+        <input type="text" id="username" placeholder="e.g. emp01 or admin" required>
+      </div>
+      <div class="form-group">
+        <label for="role">Select Portal Role</label>
+        <select id="role">
+          <option value="employee">Employee Portal</option>
+          <option value="admin">Admin / Master Control</option>
+        </select>
+      </div>
+      <button type="submit" class="btn btn-primary">Log In</button>
+    </form>
+  </div>
+
+  <!-- ================= EMPLOYEE VIEW ================= -->
+  <div id="employee-view" class="hidden">
+    <div class="portal-header">
+      <div>
+        <h2>Employee Dashboard</h2>
+        <span class="user-info">Logged in as: <strong id="emp-user-display">--</strong></span>
+      </div>
+      <button class="btn btn-secondary" onclick="logout()" style="width: auto;">Logout</button>
+    </div>
+
+    <!-- Time Clock Card -->
+    <div class="card">
+      <h2>Time Clock</h2>
+      <div class="clock-display">
+        <div class="time" id="live-clock">00:00:00 AM</div>
+        <div class="date" id="live-date">Loading date...</div>
+      </div>
+      <div class="clock-actions">
+        <button id="clock-in-btn" class="btn btn-success" onclick="toggleClock(true)">Clock In</button>
+        <button id="clock-out-btn" class="btn btn-danger" onclick="toggleClock(false)" disabled>Clock Out</button>
+      </div>
+      <p id="clock-status" style="margin-top: 12px; font-size: 0.875rem; text-align: center; color: var(--text-muted);"></p>
+    </div>
+
+    <!-- File Request Card -->
+    <div class="card">
+      <h2>Submit Request / Leave Application</h2>
+      <form id="request-form">
+        <div class="form-group">
+          <label for="req-type">Request Type</label>
+          <select id="req-type">
+            <option value="Vacation Leave">Vacation Leave</option>
+            <option value="Sick Leave">Sick Leave</option>
+            <option value="Overtime Approval">Overtime Request</option>
+            <option value="Certificate of Employment">Certificate Request</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="req-details">Details / Reason</label>
+          <textarea id="req-details" rows="3" placeholder="Provide dates or details regarding your request..." required></textarea>
+        </div>
+        <button type="submit" class="btn btn-primary">Submit Request</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- ================= ADMIN VIEW ================= -->
+  <div id="admin-view" class="hidden">
+    <div class="portal-header">
+      <div>
+        <h2>Master Control Panel</h2>
+        <span class="user-info">Role: <strong>Administrator</strong></span>
+      </div>
+      <button class="btn btn-secondary" onclick="logout()" style="width: auto;">Logout</button>
+    </div>
+
+    <!-- Approvals Card -->
+    <div class="card">
+      <h2>Pending Employee Requests</h2>
+      <table>
+        <thead>
+          <tr>
+            <th>Employee</th>
+            <th>Type</th>
+            <th>Details</th>
+            <th>Status</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+        <tbody id="admin-requests-table">
+          <!-- Dynamically populated -->
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Time Logs Card -->
+    <div class="card">
+      <h2>Live Clock Log Audit</h2>
+      <table>
+        <thead>
+          <tr>
+            <th>Employee</th>
+            <th>Action</th>
+            <th>Timestamp</th>
+          </tr>
+        </thead>
+        <tbody id="admin-clock-table">
+          <!-- Dynamically populated -->
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+</div>
+
+<script>
+  // Simple State Management
+  const state = {
+    currentUser: null,
+    currentRole: null,
+    isClockedIn: false,
+    clockLogs: [],
+    requests: [
+      { id: 1, user: 'emp01', type: 'Vacation Leave', details: 'Dec 24 - Dec 28', status: 'Pending' }
+    ]
+  };
+
+  // Clock Functionality
+  function updateClock() {
+    const now = new Date();
+    document.getElementById('live-clock').innerText = now.toLocaleTimeString();
+    document.getElementById('live-date').innerText = now.toLocaleDateString(undefined, { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
+  }
+  setInterval(updateClock, 1000);
+  updateClock();
+
+  // Login Handler
+  document.getElementById('login-form').addEventListener('submit', (e) => {
+    e.preventDefault();
+    const user = document.getElementById('username').value.trim();
+    const role = document.getElementById('role').value;
+
+    if (!user) return;
+
+    state.currentUser = user;
+    state.currentRole = role;
+
+    document.getElementById('login-view').classList.add('hidden');
+
+    if (role === 'employee') {
+      document.getElementById('emp-user-display').innerText = user;
+      document.getElementById('employee-view').classList.remove('hidden');
+    } else {
+      document.getElementById('admin-view').classList.remove('hidden');
+      renderAdminTables();
+    }
+  });
+
+  // Logout Handler
+  function logout() {
+    state.currentUser = null;
+    state.currentRole = null;
+    document.getElementById('login-view').classList.remove('hidden');
+    document.getElementById('employee-view').classList.add('hidden');
+    document.getElementById('admin-view').classList.add('hidden');
+  }
+
+  // Employee: Clock In/Out
+  function toggleClock(clockIn) {
+    state.isClockedIn = clockIn;
+    const timeStr = new Date().toLocaleString();
+    
+    document.getElementById('clock-in-btn').disabled = clockIn;
+    document.getElementById('clock-out-btn').disabled = !clockIn;
+    
+    const statusText = clockIn 
+      ? `Clocked IN at ${timeStr}` 
+      : `Clocked OUT at ${timeStr}`;
+    
+    document.getElementById('clock-status').innerText = statusText;
+
+    // Log action for Admin View
+    state.clockLogs.unshift({
+      user: state.currentUser,
+      action: clockIn ? 'CLOCK IN' : 'CLOCK OUT',
+      timestamp: timeStr
+    });
+  }
+
+  // Employee: Submit Request
+  document.getElementById('request-form').addEventListener('submit', (e) => {
+    e.preventDefault();
+    const type = document.getElementById('req-type').value;
+    const details = document.getElementById('req-details').value;
+
+    state.requests.push({
+      id: Date.now(),
+      user: state.currentUser,
+      type: type,
+      details: details,
+      status: 'Pending'
+    });
+
+    alert('Request submitted successfully!');
+    document.getElementById('req-details').value = '';
+  });
+
+  // Admin: Render Approvals & Logs
+  function renderAdminTables() {
+    // Render Requests
+    const reqTable = document.getElementById('admin-requests-table');
+    reqTable.innerHTML = state.requests.map(req => `
+      <tr>
+        <td><strong>${req.user}</strong></td>
+        <td>${req.type}</td>
+        <td>${req.details}</td>
+        <td><span class="badge badge-${req.status.toLowerCase()}">${req.status}</span></td>
+        <td>
+          ${req.status === 'Pending' ? `
+            <div class="flex-gap">
+              <button class="btn btn-success" style="padding: 4px 8px; font-size: 0.75rem;" onclick="updateRequestStatus(${req.id}, 'Approved')">Approve</button>
+              <button class="btn btn-danger" style="padding: 4px 8px; font-size: 0.75rem;" onclick="updateRequestStatus(${req.id}, 'Rejected')">Reject</button>
+            </div>
+          ` : '<em>Done</em>'}
+        </td>
+      </tr>
+    `).join('') || '<tr><td colspan="5" style="text-align:center;">No requests submitted yet.</td></tr>';
+
+    // Render Clock Audit
+    const clockTable = document.getElementById('admin-clock-table');
+    clockTable.innerHTML = state.clockLogs.map(log => `
+      <tr>
+        <td><strong>${log.user}</strong></td>
+        <td><span class="badge ${log.action === 'CLOCK IN' ? 'badge-approved' : 'badge-rejected'}">${log.action}</span></td>
+        <td>${log.timestamp}</td>
+      </tr>
+    `).join('') || '<tr><td colspan="3" style="text-align:center;">No active clock activity recorded yet.</td></tr>';
+  }
+
+  // Admin: Action Handler
+  function updateRequestStatus(id, newStatus) {
+    const target = state.requests.find(r => r.id === id);
+    if (target) {
+      target.status = newStatus;
+      renderAdminTables();
+    }
+  }
+</script>
+
+</body>
+</html>
